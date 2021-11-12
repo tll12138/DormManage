@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dormmanage.dao.OutsiderMapper">
+  <resultMap id="BaseResultMap" type="com.example.dormmanage.bean.Outsider">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="matter" jdbcType="VARCHAR" property="matter" />
+    <result column="accesstime" jdbcType="TIMESTAMP" property="accesstime" />
+    <result column="leavetime" jdbcType="TIMESTAMP" property="leavetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, matter, accesstime, leavetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from outsider
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from outsider
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.dormmanage.bean.Outsider">
+    insert into outsider (id, name, matter, 
+      accesstime, leavetime)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{matter,jdbcType=VARCHAR}, 
+      #{accesstime,jdbcType=TIMESTAMP}, #{leavetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.dormmanage.bean.Outsider">
+    insert into outsider
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="matter != null">
+        matter,
+      </if>
+      <if test="accesstime != null">
+        accesstime,
+      </if>
+      <if test="leavetime != null">
+        leavetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="matter != null">
+        #{matter,jdbcType=VARCHAR},
+      </if>
+      <if test="accesstime != null">
+        #{accesstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavetime != null">
+        #{leavetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.dormmanage.bean.Outsider">
+    update outsider
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="matter != null">
+        matter = #{matter,jdbcType=VARCHAR},
+      </if>
+      <if test="accesstime != null">
+        accesstime = #{accesstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavetime != null">
+        leavetime = #{leavetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.dormmanage.bean.Outsider">
+    update outsider
+    set name = #{name,jdbcType=VARCHAR},
+      matter = #{matter,jdbcType=VARCHAR},
+      accesstime = #{accesstime,jdbcType=TIMESTAMP},
+      leavetime = #{leavetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

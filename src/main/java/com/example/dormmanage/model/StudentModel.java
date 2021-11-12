@@ -17,7 +17,7 @@ public class StudentModel {
     /**
      * 学号
      */
-    private Integer stuId;
+    private String stuId;
 
     /**
      * 密码

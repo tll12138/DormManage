@@ -1,53 +1,88 @@
 package com.example.dormmanage.bean;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Date;
 
 /**
- * @author LL
- * @date 2021/11/12 14:19
+ * @author 龙
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class StudentInfo {
-
     private Integer id;
-    /**
-     * 学号
-     */
-    private Integer stuId;
 
-    /**
-     * 姓名
-     */
+    private String stuId;
+
     private String name;
 
-    /**
-     * 宿舍楼
-     */
     private String buildingNo;
 
-    /**
-     * 宿舍号
-     */
     private Integer dormitoryNo;
 
-    /**
-     * 床位
-     */
     private String bedNo;
 
-    /**
-     * 入住时间
-     */
-    private String check_inTime;
+    private Date checkInTime;
 
-    /**
-     * 退宿时间
-     */
-    private String check_outTime;
+    private Date checkOutTime;
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getStuId() {
+        return stuId;
+    }
+
+    public void setStuId(String stuId) {
+        this.stuId = stuId == null ? null : stuId.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getBuildingNo() {
+        return buildingNo;
+    }
+
+    public void setBuildingNo(String buildingNo) {
+        this.buildingNo = buildingNo == null ? null : buildingNo.trim();
+    }
+
+    public Integer getDormitoryNo() {
+        return dormitoryNo;
+    }
+
+    public void setDormitoryNo(Integer dormitoryNo) {
+        this.dormitoryNo = dormitoryNo;
+    }
+
+    public String getBedNo() {
+        return bedNo;
+    }
+
+    public void setBedNo(String bedNo) {
+        this.bedNo = bedNo == null ? null : bedNo.trim();
+    }
+
+    public Date getCheckInTime() {
+        return checkInTime;
+    }
+
+    public void setCheckInTime(Date checkInTime) {
+        this.checkInTime = checkInTime;
+    }
+
+    public Date getCheckOutTime() {
+        return checkOutTime;
+    }
+
+    public void setCheckOutTime(Date checkOutTime) {
+        this.checkOutTime = checkOutTime;
+    }
 }
