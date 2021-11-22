@@ -1,10 +1,13 @@
 package com.example.dormmanage.bean;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
  * @author 龙
  */
+@Data
 public class StudentInfo {
     private Integer id;
 
@@ -18,9 +21,9 @@ public class StudentInfo {
 
     private String bedNo;
 
-    private Date checkInTime;
+    private String checkInTime;
 
-    private Date checkOutTime;
+    private String checkOutTime;
 
     public Integer getId() {
         return id;
@@ -70,19 +73,5 @@ public class StudentInfo {
         this.bedNo = bedNo == null ? null : bedNo.trim();
     }
 
-    public Date getCheckInTime() {
-        return checkInTime;
-    }
 
-    public void setCheckInTime(Date checkInTime) {
-        this.checkInTime = checkInTime;
-    }
-
-    public Date getCheckOutTime() {
-        return checkOutTime;
-    }
-
-    public void setCheckOutTime(Date checkOutTime) {
-        this.checkOutTime = checkOutTime;
-    }
 }

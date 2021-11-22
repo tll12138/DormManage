@@ -30,8 +30,4 @@ public class ServicemanModel {
     private String name;
 
 
-    public String getUserName() {
-        return userName;
-    }
-
 }

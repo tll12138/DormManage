@@ -1,6 +1,17 @@
 server:
   port: 8888
 spring:
+  thymeleaf:
+    cache: false
+    prefix: classpath:/public/
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+#    view:
+#      prefix: /public/
+#      suffix: .html
+#    static-path-pattern: /static/**
   datasource:
     url: jdbc:mysql://localhost:3306/dorm_manage?useUnicode=true&characterEncoding=utf8
     username: root

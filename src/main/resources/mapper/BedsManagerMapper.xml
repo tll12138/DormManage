@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dormmanage.dao.BedsManagerMapper">
+  <resultMap id="BaseResultMap" type="com.example.dormmanage.bean.BedsManager">
+    <id column="dorm_id" jdbcType="INTEGER" property="dormId" />
+    <result column="bedA" jdbcType="VARCHAR" property="beda" />
+    <result column="bedB" jdbcType="VARCHAR" property="bedb" />
+    <result column="bedC" jdbcType="VARCHAR" property="bedc" />
+    <result column="bedD" jdbcType="VARCHAR" property="bedd" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dorm_id, bedA, bedB, bedC, bedD
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from beds_manager
+    where dorm_id = #{dormId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from beds_manager
+    where dorm_id = #{dormId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.dormmanage.bean.BedsManager">
+    insert into beds_manager (dorm_id, bedA, bedB, 
+      bedC, bedD)
+    values (#{dormId,jdbcType=INTEGER}, #{beda,jdbcType=VARCHAR}, #{bedb,jdbcType=VARCHAR}, 
+      #{bedc,jdbcType=VARCHAR}, #{bedd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.dormmanage.bean.BedsManager">
+    insert into beds_manager
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dormId != null">
+        dorm_id,
+      </if>
+      <if test="beda != null">
+        bedA,
+      </if>
+      <if test="bedb != null">
+        bedB,
+      </if>
+      <if test="bedc != null">
+        bedC,
+      </if>
+      <if test="bedd != null">
+        bedD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dormId != null">
+        #{dormId,jdbcType=INTEGER},
+      </if>
+      <if test="beda != null">
+        #{beda,jdbcType=VARCHAR},
+      </if>
+      <if test="bedb != null">
+        #{bedb,jdbcType=VARCHAR},
+      </if>
+      <if test="bedc != null">
+        #{bedc,jdbcType=VARCHAR},
+      </if>
+      <if test="bedd != null">
+        #{bedd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.dormmanage.bean.BedsManager">
+    update beds_manager
+    <set>
+      <if test="beda != null">
+        bedA = #{beda,jdbcType=VARCHAR},
+      </if>
+      <if test="bedb != null">
+        bedB = #{bedb,jdbcType=VARCHAR},
+      </if>
+      <if test="bedc != null">
+        bedC = #{bedc,jdbcType=VARCHAR},
+      </if>
+      <if test="bedd != null">
+        bedD = #{bedd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dorm_id = #{dormId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.dormmanage.bean.BedsManager">
+    update beds_manager
+    set bedA = #{beda,jdbcType=VARCHAR},
+      bedB = #{bedb,jdbcType=VARCHAR},
+      bedC = #{bedc,jdbcType=VARCHAR},
+      bedD = #{bedd,jdbcType=VARCHAR}
+    where dorm_id = #{dormId,jdbcType=INTEGER}
+  </update>
+</mapper>

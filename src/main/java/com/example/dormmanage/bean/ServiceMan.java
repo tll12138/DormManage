@@ -1,8 +1,5 @@
 package com.example.dormmanage.bean;
 
-/**
- * @author 龙
- */
 public class ServiceMan {
     private Integer id;
 
@@ -11,6 +8,8 @@ public class ServiceMan {
     private String password;
 
     private String name;
+
+    private Integer permission;
 
     public Integer getId() {
         return id;
@@ -42,5 +41,13 @@ public class ServiceMan {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getPermission() {
+        return permission;
+    }
+
+    public void setPermission(Integer permission) {
+        this.permission = permission;
     }
 }

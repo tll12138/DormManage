@@ -1,134 +1,232 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.dormmanage.dao.StudentInfoMapper">
-  <resultMap id="BaseResultMap" type="com.example.dormmanage.bean.StudentInfo">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="stu_id" jdbcType="VARCHAR" property="stuId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="building_no" jdbcType="VARCHAR" property="buildingNo" />
-    <result column="dormitory_no" jdbcType="INTEGER" property="dormitoryNo" />
-    <result column="bed_no" jdbcType="VARCHAR" property="bedNo" />
-    <result column="check_in_time" jdbcType="TIMESTAMP" property="checkInTime" />
-    <result column="check_out_time" jdbcType="TIMESTAMP" property="checkOutTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, stu_id, name, building_no, dormitory_no, bed_no, check_in_time, check_out_time
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from student_info
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectByStuId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from student_info
-    where stu_id = #{stuId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from student_info
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.example.dormmanage.bean.StudentInfo">
-    insert into student_info (id, stu_id, name, 
-      building_no, dormitory_no, bed_no, 
-      check_in_time, check_out_time)
-    values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{buildingNo,jdbcType=VARCHAR}, #{dormitoryNo,jdbcType=INTEGER}, #{bedNo,jdbcType=VARCHAR}, 
-      #{checkInTime,jdbcType=TIMESTAMP}, #{checkOutTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.example.dormmanage.bean.StudentInfo">
-    insert into student_info
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="stuId != null">
-        stu_id,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="buildingNo != null">
-        building_no,
-      </if>
-      <if test="dormitoryNo != null">
-        dormitory_no,
-      </if>
-      <if test="bedNo != null">
-        bed_no,
-      </if>
-      <if test="checkInTime != null">
-        check_in_time,
-      </if>
-      <if test="checkOutTime != null">
-        check_out_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="stuId != null">
-        #{stuId,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="buildingNo != null">
-        #{buildingNo,jdbcType=VARCHAR},
-      </if>
-      <if test="dormitoryNo != null">
-        #{dormitoryNo,jdbcType=INTEGER},
-      </if>
-      <if test="bedNo != null">
-        #{bedNo,jdbcType=VARCHAR},
-      </if>
-      <if test="checkInTime != null">
-        #{checkInTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="checkOutTime != null">
-        #{checkOutTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.dormmanage.bean.StudentInfo">
-    update student_info
-    <set>
-      <if test="stuId != null">
-        stu_id = #{stuId,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="buildingNo != null">
-        building_no = #{buildingNo,jdbcType=VARCHAR},
-      </if>
-      <if test="dormitoryNo != null">
-        dormitory_no = #{dormitoryNo,jdbcType=INTEGER},
-      </if>
-      <if test="bedNo != null">
-        bed_no = #{bedNo,jdbcType=VARCHAR},
-      </if>
-      <if test="checkInTime != null">
-        check_in_time = #{checkInTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="checkOutTime != null">
-        check_out_time = #{checkOutTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.dormmanage.bean.StudentInfo">
-    update student_info
-    set stu_id = #{stuId,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      building_no = #{buildingNo,jdbcType=VARCHAR},
-      dormitory_no = #{dormitoryNo,jdbcType=INTEGER},
-      bed_no = #{bedNo,jdbcType=VARCHAR},
-      check_in_time = #{checkInTime,jdbcType=TIMESTAMP},
-      check_out_time = #{checkOutTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    <resultMap id="BaseResultMap" type="com.example.dormmanage.bean.StudentInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="stu_id" jdbcType="VARCHAR" property="stuId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="building_no" jdbcType="VARCHAR" property="buildingNo"/>
+        <result column="dormitory_no" jdbcType="INTEGER" property="dormitoryNo"/>
+        <result column="bed_no" jdbcType="VARCHAR" property="bedNo"/>
+        <result column="check_in_time" jdbcType="TIMESTAMP" property="checkInTime"/>
+        <result column="check_out_time" jdbcType="TIMESTAMP" property="checkOutTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , stu_id, name, building_no, dormitory_no, bed_no, check_in_time, check_out_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from student_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByStuId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from student_info
+        where stu_id = #{stuId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectStus" parameterType="map" resultMap="BaseResultMap">
+        select *
+        from student_info limit #{page},#{size}
+    </select>
+    <select id="selectStudentSelective" parameterType="map" resultMap="BaseResultMap">
+        select *
+        from student_info
+        <where>
+            <if test="studentId != null">
+                stu_id = #{studentId,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                name = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="building != null">
+                building_no = #{building,jdbcType=VARCHAR},
+            </if>
+            <if test="dormitory != null">
+                dormitory_no = #{dormitory,jdbcType=INTEGER}
+            </if>
+        </where>
+        limit #{page},#{size}
+    </select>
+    <select id="selectCounts" resultType="java.lang.Integer">
+        select count(*)
+        from student_info
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from student_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByStuId" parameterType="java.lang.String">
+        delete
+        from student_info
+        where stu_id = #{stuId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.example.dormmanage.bean.StudentInfo">
+        insert into student_info (id, stu_id, name,
+                                  building_no, dormitory_no, bed_no,
+                                  check_in_time, check_out_time)
+        values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+                #{buildingNo,jdbcType=VARCHAR}, #{dormitoryNo,jdbcType=INTEGER}, #{bedNo,jdbcType=VARCHAR},
+                #{checkInTime,jdbcType=TIMESTAMP}, #{checkOutTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.example.dormmanage.bean.StudentInfo" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into student_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="stuId != null">
+                stu_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="buildingNo != null">
+                building_no,
+            </if>
+            <if test="dormitoryNo != null">
+                dormitory_no,
+            </if>
+            <if test="bedNo != null">
+                bed_no,
+            </if>
+            check_in_time,
+            check_out_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="stuId != null">
+                #{stuId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="buildingNo != null">
+                #{buildingNo,jdbcType=VARCHAR},
+            </if>
+            <if test="dormitoryNo != null">
+                #{dormitoryNo,jdbcType=INTEGER},
+            </if>
+            <if test="bedNo != null">
+                #{bedNo,jdbcType=VARCHAR},
+            </if>
+            CURDATE(),
+            DATE_ADD(CURDATE(), INTERVAL 4 YEAR)
+        </trim>
+    </insert>
+    <insert id="insertSelectiveByMap" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+        insert into student_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="stuId != null">
+                stu_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="buildingNo != null">
+                building_no,
+            </if>
+            <if test="dormitoryNo != null">
+                dormitory_no,
+            </if>
+            <if test="bedNo != null">
+                bed_no,
+            </if>
+            check_in_time,
+            check_out_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="stuId != null">
+                #{stuId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="buildingNo != null">
+                #{buildingNo,jdbcType=VARCHAR},
+            </if>
+            <if test="dormitoryNo != null">
+                #{dormitoryNo,jdbcType=INTEGER},
+            </if>
+            <if test="bedNo != null">
+                #{bedNo,jdbcType=VARCHAR},
+            </if>
+            CURDATE(),
+            DATE_ADD(CURDATE(), INTERVAL 4 YEAR)
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.dormmanage.bean.StudentInfo">
+        update student_info
+        <set>
+            <if test="stuId != null">
+                stu_id = #{stuId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="buildingNo != null">
+                building_no = #{buildingNo,jdbcType=VARCHAR},
+            </if>
+            <if test="dormitoryNo != null">
+                dormitory_no = #{dormitoryNo,jdbcType=INTEGER},
+            </if>
+            <if test="bedNo != null">
+                bed_no = #{bedNo,jdbcType=VARCHAR},
+            </if>
+            <if test="checkInTime != null">
+                check_in_time = #{checkInTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checkOutTime != null">
+                check_out_time = #{checkOutTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateSelective" parameterType="map">
+        update student_info
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="buildingNo != null">
+                building_no = #{buildingNo,jdbcType=VARCHAR},
+            </if>
+            <if test="dormitoryNo != null">
+                dormitory_no = #{dormitoryNo,jdbcType=INTEGER},
+            </if>
+            <if test="bedNo != null">
+                bed_no = #{bedNo,jdbcType=VARCHAR},
+            </if>
+            <if test="checkInTime != null">
+                check_in_time = #{checkInTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checkOutTime != null">
+                check_out_time = #{checkOutTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where stu_id = #{stuId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.dormmanage.bean.StudentInfo">
+        update student_info
+        set stu_id         = #{stuId,jdbcType=VARCHAR},
+            name           = #{name,jdbcType=VARCHAR},
+            building_no    = #{buildingNo,jdbcType=VARCHAR},
+            dormitory_no   = #{dormitoryNo,jdbcType=INTEGER},
+            bed_no         = #{bedNo,jdbcType=VARCHAR},
+            check_in_time  = #{checkInTime,jdbcType=TIMESTAMP},
+            check_out_time = #{checkOutTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

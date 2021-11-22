@@ -1,8 +1,5 @@
 package com.example.dormmanage.bean;
 
-/**
- * @author 龙
- */
 public class DormManager {
     private Integer id;
 
@@ -13,6 +10,8 @@ public class DormManager {
     private String name;
 
     private String buildingNo;
+
+    private Integer permission;
 
     public Integer getId() {
         return id;
@@ -52,5 +51,13 @@ public class DormManager {
 
     public void setBuildingNo(String buildingNo) {
         this.buildingNo = buildingNo == null ? null : buildingNo.trim();
+    }
+
+    public Integer getPermission() {
+        return permission;
+    }
+
+    public void setPermission(Integer permission) {
+        this.permission = permission;
     }
 }

@@ -43,18 +43,18 @@
         </javaClientGenerator>
 
         <!-- table指定每个生成表的生成策略  表名 和 model实体类名-->
-        <table tableName="student_info" enableSelectByExample="false"
-               enableDeleteByExample="false" enableCountByExample="false"
-               enableUpdateByExample="false" selectByExampleQueryId="false">
-            <property name="ignoreQualifiersAtRuntime" value="false"/>
-            <property name="useActualColumnNames" value="false"/>
-        </table>
-        <table tableName="student_password" enableSelectByExample="false"
-               enableDeleteByExample="false" enableCountByExample="false"
-               enableUpdateByExample="false" selectByExampleQueryId="false">
-            <property name="ignoreQualifiersAtRuntime" value="false"/>
-            <property name="useActualColumnNames" value="false"/>
-        </table>
+<!--        <table tableName="student_info" enableSelectByExample="false"-->
+<!--               enableDeleteByExample="false" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
+<!--        <table tableName="student_password" enableSelectByExample="false"-->
+<!--               enableDeleteByExample="false" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
         <table tableName="dorm_manager" enableSelectByExample="false"
                enableDeleteByExample="false" enableCountByExample="false"
                enableUpdateByExample="false" selectByExampleQueryId="false">
@@ -67,18 +67,42 @@
             <property name="ignoreQualifiersAtRuntime" value="false"/>
             <property name="useActualColumnNames" value="false"/>
         </table>
-        <table tableName="outsider" enableSelectByExample="false"
-               enableDeleteByExample="false" enableCountByExample="false"
-               enableUpdateByExample="false" selectByExampleQueryId="false">
-            <property name="ignoreQualifiersAtRuntime" value="false"/>
-            <property name="useActualColumnNames" value="false"/>
-        </table>
+<!--        <table tableName="outsider" enableSelectByExample="false"-->
+<!--               enableDeleteByExample="false" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
         <table tableName="service_man" enableSelectByExample="false"
                enableDeleteByExample="false" enableCountByExample="false"
                enableUpdateByExample="false" selectByExampleQueryId="false">
             <property name="ignoreQualifiersAtRuntime" value="false"/>
             <property name="useActualColumnNames" value="false"/>
         </table>
+<!--        <table tableName="dorm" enableSelectByExample="false"-->
+<!--               enableDeleteByExample="false" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
+<!--        <table tableName="dorm_maintenance" enableSelectByExample="false"-->
+<!--               enableDeleteByExample="false" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
+<!--        <table tableName="beds_manager" enableSelectByExample="false"-->
+<!--               enableDeleteByExample="false" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
+<!--        <table tableName="build_manage" enableSelectByExample="false"-->
+<!--               enableDeleteByExample="false" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
 
     </context>
 </generatorConfiguration>

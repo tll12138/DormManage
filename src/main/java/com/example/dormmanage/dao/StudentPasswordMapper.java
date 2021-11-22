@@ -11,6 +11,8 @@ public interface StudentPasswordMapper {
 
     StudentPassword selectByPrimaryKey(Integer id);
 
+    StudentPassword selectByStuId(Integer stuInfoId);
+
     int updateByPrimaryKeySelective(StudentPassword record);
 
     int updateByPrimaryKey(StudentPassword record);

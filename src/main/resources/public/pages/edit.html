@@ -1,0 +1,92 @@
+<div class="layuimini-main">
+
+    <div class="layui-form layuimini-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label required">学号</label>
+            <div class="layui-input-block">
+                <input type="text" name="stuId" lay-verify="required" lay-reqtext="学号不能为空" placeholder="请输入学号" value=""
+                       class="layui-input">
+                <tip>填写学生的学号。</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="required" lay-reqtext="姓名不能为空" placeholder="请输入姓名"
+                       value="" class="layui-input">
+                <tip>填写学生的姓名。</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label required">楼栋</label>
+            <div class="layui-input-block">
+                <input type="text" name="buildingNo" lay-verify="required" lay-reqtext="楼栋不能为空"
+                       placeholder="请输入楼栋" value="" class="layui-input">
+                <tip>填写学生的楼栋。</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">寝室号</label>
+            <div class="layui-input-block">
+                <input type="number" name="dormitoryNo" lay-verify="required" placeholder="请输入寝室号"
+                       lay-reqtext="寝室号不能为空" value="" class="layui-input">
+                <tip>填写学生的寝室号。</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">床位</label>
+            <div class="layui-input-block">
+                <input type="text" name="bedNo" lay-verify="required" lay-reqtext="床位不能为空"
+                       placeholder="请输入床位" value="" class="layui-input">
+                <tip>填写学生的床位。</tip>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'table'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            table = layui.table,
+            $ = layui.$;
+
+        /**
+         * 初始化表单，要加上，不然刷新部分组件可能会不加载
+         */
+        form.render();
+
+        // // 当前弹出层，防止ID被覆盖
+        // var parentIndex = layer.index;
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            data=data.field;
+            $.ajax({
+                type:"POST",
+                url:"/user/edit",
+                dataType:"json",
+                contentType: "application/json;charset=utf-8",
+                data:JSON.stringify(data),
+                success:function (data){
+                    if (data.status=="success"){
+                        alert("修改成功");
+                        layer.close(index);
+                    }else {
+                        alert("修改失败"+data.data.errMsg);
+                    }
+                },
+                error:function (data){
+                    alert("修改失败"+data.responseText);
+                }
+            })
+            return false;
+        });
+
+    });
+</script>
