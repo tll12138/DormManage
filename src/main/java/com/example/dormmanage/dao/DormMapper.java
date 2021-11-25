@@ -2,6 +2,9 @@ package com.example.dormmanage.dao;
 
 import com.example.dormmanage.bean.Dorm;
 
+import java.util.List;
+import java.util.Map;
+
 public interface DormMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -9,7 +12,15 @@ public interface DormMapper {
 
     int insertSelective(Dorm record);
 
+    int insertSelectiveByMap(Map<String,Object> map);
+
     Dorm selectByPrimaryKey(Integer id);
+
+    Dorm selectByMapPrimaryKey(Map<String,Object> map);
+
+    List<Dorm> selectDorms(Map<String,Object> map);
+
+    int selectCount();
 
     int updateByPrimaryKeySelective(Dorm record);
 

@@ -31,10 +31,10 @@ public class StudentServiceImpl implements StudentService {
     StudentPasswordMapper studentPasswordMapper;
 
     @Override
-    public StudentModel getStudent(String stuId) {
+    public StudentModel getStudent(String stuId) throws BusinessException {
         StudentInfo studentInfo = studentInfoMapper.selectByStuId(stuId);
         if (studentInfo==null){
-            return null;
+            throw new BusinessException(EmBusinessError.USER_NOT_EXIST);
         }
         StudentModel studentModel = convertModelFromBean(studentInfo);
         return studentModel;
@@ -105,6 +105,7 @@ public class StudentServiceImpl implements StudentService {
             throw new BusinessException(EmBusinessError.STUDENT_NOT_EXIST);
         }
         studentInfoMapper.deleteByStuId(studentInfo.getStuId());
+        studentPasswordMapper.deleteByStuInfoId(studentInfo.getId());
     }
 
     @Override

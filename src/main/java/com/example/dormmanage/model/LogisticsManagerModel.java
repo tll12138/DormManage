@@ -17,7 +17,7 @@ public class LogisticsManagerModel {
     /**
      * 用户名
      */
-    private String userName;
+    private String username;
 
     /**
      * 密码
@@ -28,5 +28,10 @@ public class LogisticsManagerModel {
      * 姓名
      */
     private String name;
+
+    /**
+     * 权限
+     */
+    private Integer permission;
 
 }

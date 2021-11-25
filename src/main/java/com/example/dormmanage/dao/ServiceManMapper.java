@@ -11,6 +11,8 @@ public interface ServiceManMapper {
 
     ServiceMan selectByPrimaryKey(Integer id);
 
+    ServiceMan selectByUsername(String username);
+
     int updateByPrimaryKeySelective(ServiceMan record);
 
     int updateByPrimaryKey(ServiceMan record);

@@ -34,4 +34,9 @@ public class DormManagerModel {
      */
     private String buildingNo;
 
+    /**
+     * 权限
+     */
+    private Integer permission;
+
 }

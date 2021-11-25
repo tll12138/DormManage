@@ -29,25 +29,26 @@
     </select>
     <select id="selectStus" parameterType="map" resultMap="BaseResultMap">
         select *
-        from student_info limit #{page},#{size}
+        from student_info
+        limit #{page},#{size}
     </select>
     <select id="selectStudentSelective" parameterType="map" resultMap="BaseResultMap">
         select *
         from student_info
-        <where>
+        <trim prefix="where" prefixOverrides="and | or">
             <if test="studentId != null">
-                stu_id = #{studentId,jdbcType=VARCHAR},
+              and stu_id = #{studentId,jdbcType=VARCHAR}
             </if>
             <if test="username != null">
-                name = #{username,jdbcType=VARCHAR},
+              and name = #{username,jdbcType=VARCHAR}
             </if>
             <if test="building != null">
-                building_no = #{building,jdbcType=VARCHAR},
+              and building_no = #{building,jdbcType=VARCHAR}
             </if>
             <if test="dormitory != null">
-                dormitory_no = #{dormitory,jdbcType=INTEGER}
+              and dormitory_no = #{dormitory,jdbcType=INTEGER}
             </if>
-        </where>
+        </trim>
         limit #{page},#{size}
     </select>
     <select id="selectCounts" resultType="java.lang.Integer">

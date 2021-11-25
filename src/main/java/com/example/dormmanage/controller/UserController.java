@@ -6,8 +6,14 @@ import com.example.dormmanage.dao.StudentInfoMapper;
 import com.example.dormmanage.dao.StudentPasswordMapper;
 import com.example.dormmanage.error.BusinessException;
 import com.example.dormmanage.error.EmBusinessError;
+import com.example.dormmanage.model.DormManagerModel;
+import com.example.dormmanage.model.LogisticsManagerModel;
+import com.example.dormmanage.model.ServicemanModel;
 import com.example.dormmanage.model.StudentModel;
 import com.example.dormmanage.response.CommonReturn;
+import com.example.dormmanage.service.DormManagerService;
+import com.example.dormmanage.service.LogisticsManagerService;
+import com.example.dormmanage.service.ServiceManService;
 import com.example.dormmanage.service.StudentService;
 import com.sun.deploy.net.HttpResponse;
 import io.netty.util.internal.StringUtil;
@@ -20,11 +26,13 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.rmi.MarshalledObject;
@@ -43,50 +51,86 @@ import java.util.Map;
 @Controller
 public class UserController extends BaseController{
 
-    @Autowired
-    StudentInfoMapper studentInfoMapper;
-
-    @Autowired
-    StudentPasswordMapper studentPasswordMapper;
 
     @Autowired
     StudentService studentService;
 
     @Autowired
+    DormManagerService dormManagerService;
+
+    @Autowired
+    LogisticsManagerService logisticsManagerService;
+
+    @Autowired
+    ServiceManService serviceManService;
+
+    @Autowired
     HttpServletRequest httpServletRequest;
+
+    //学生学号位数
+    private final static Integer STUDENT_NUMBERS = 10;
+
+    //寝室管理员用户名位数
+    private final static Integer DORMMANGER_NUMBERS = 6;
+
+    private final static Integer LOGISTICSMANAGER_NUMBERS = 5;
+
+    //维修工用户名位数
+    private final static Integer SERVICEMAN_NUMBERS = 4;
+
+    Integer permission = -1;
 
     @RequestMapping(value = "/login",method = RequestMethod.POST,consumes = CONTENT_TYPE_FORMED)
     @ResponseBody
     public CommonReturn login(@RequestParam("username")String username,
-                              @RequestParam("password")String password,
-                              Model model) throws Exception {
+                              @RequestParam("password")String password) throws Exception {
         if (StringUtil.isNullOrEmpty(username)){
             throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE, "账号不能为空");
         }
         if (StringUtil.isNullOrEmpty(password)){
             throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE, "密码不能为空");
         }
-        StudentModel student = studentService.getStudent(username);
-        if (student==null){
-            throw new BusinessException(EmBusinessError.STUDENT_NOT_EXIST);
+
+        if (username.length()==STUDENT_NUMBERS){
+            StudentModel student = studentService.getStudent(username);
+            StudentVo studentVo = new StudentVo();
+            BeanUtils.copyProperties(student,studentVo);
+            httpServletRequest.getSession().setAttribute("student", studentVo);
+            if (!StringUtils.equals(student.getPassword(), new String(Base64.encodeBase64(password.getBytes("UTF-8"))))){
+                throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE,"密码错误");
+            }
+        }else if (username.length()==DORMMANGER_NUMBERS){
+            DormManagerModel dormManagerModel = dormManagerService.getDormManagerByUsername(username);
+            httpServletRequest.getSession().setAttribute("dormManager", dormManagerModel);
+            if (!StringUtils.equals(dormManagerModel.getPassword(), new String(Base64.encodeBase64(password.getBytes("UTF-8"))))){
+                throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE,"密码错误");
+            }
+            permission = dormManagerModel.getPermission();
+        }else if (username.length()==LOGISTICSMANAGER_NUMBERS){
+            LogisticsManagerModel logisticsManager = logisticsManagerService.getLogisticsManager(username);
+            httpServletRequest.getSession().setAttribute("logisticsManager",logisticsManager);
+            if (!StringUtils.equals(logisticsManager.getPassword(), new String(Base64.encodeBase64(password.getBytes("UTF-8"))))){
+                throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE,"密码错误");
+            }
+            permission = logisticsManager.getPermission();
+        }else if (username.length()==SERVICEMAN_NUMBERS){
+            ServicemanModel serviceMan = serviceManService.getServiceMan(username);
+            httpServletRequest.getSession().setAttribute("serviceMan",serviceMan);
+            if (!StringUtils.equals(serviceMan.getPassword(), new String(Base64.encodeBase64(password.getBytes("UTF-8"))))){
+                throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE,"密码错误");
+            }
+            permission = serviceMan.getPermission();
+        }else {
+            throw new BusinessException(EmBusinessError.USER_NOT_EXIST);
         }
-        if (!StringUtils.equals(student.getPassword(), new String(Base64.encodeBase64(password.getBytes("UTF-8"))))){
-            throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE,"密码错误");
-        }
-        StudentVo studentVo = new StudentVo();
-        BeanUtils.copyProperties(student,studentVo);
-        model.addAttribute("username", username);
-        model.addAttribute("student", studentVo);
         httpServletRequest.getSession().setAttribute("username", username);
-        httpServletRequest.getSession().setAttribute("student", studentVo);
         httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
-        return CommonReturn.create(null);
+        return CommonReturn.create(permission);
     }
 
     @RequestMapping(value = "/users")
     @ResponseBody
-    public CommonReturn initUsers(@RequestParam Map<String,Object> map,
-                                  HttpSession session) throws Exception {
+    public CommonReturn initUsers(@RequestParam Map<String,Object> map) throws Exception {
 
         if (map==null){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
@@ -142,5 +186,12 @@ public class UserController extends BaseController{
         }
         List<StudentVo> studentVos = studentService.selectStudent(map);
         return CommonReturn.create(studentVos,1,"200");
+    }
+
+    @RequestMapping("/index")
+    @ResponseBody
+    public CommonReturn index(){
+        System.out.println(permission);
+        return CommonReturn.create(permission);
     }
 }

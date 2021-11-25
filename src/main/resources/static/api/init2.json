@@ -1,0 +1,53 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "pages/welcome.html"
+  },
+  "logoInfo": {
+    "title": "DORM",
+    "image": "images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "常规管理",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "系统设置",
+          "href": "page/setting.html",
+          "icon": "fa fa-gears",
+          "target": "_self"
+        },
+        {
+          "title": "表格示例",
+          "href": "page/table.html",
+          "icon": "fa fa-file-text",
+          "target": "_self"
+        },
+        {
+          "title": "其它界面",
+          "href": "",
+          "icon": "fa fa-snowflake-o",
+          "target": "",
+          "child": [
+            {
+              "title": "按钮示例",
+              "href": "page/button.html",
+              "icon": "fa fa-snowflake-o",
+              "target": "_self"
+            },
+            {
+              "title": "弹出层",
+              "href": "page/layer.html",
+              "icon": "fa fa-shield",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

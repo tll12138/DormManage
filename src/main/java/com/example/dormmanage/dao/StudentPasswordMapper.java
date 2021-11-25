@@ -5,6 +5,8 @@ import com.example.dormmanage.bean.StudentPassword;
 public interface StudentPasswordMapper {
     int deleteByPrimaryKey(Integer id);
 
+    int deleteByStuInfoId(Integer id);
+
     int insert(StudentPassword record);
 
     int insertSelective(StudentPassword record);

@@ -9,9 +9,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label required">学号</label>
                 <div class="layui-input-block">
-                    <!--@thymesVar id="msg" type="String"-->
-                    <input type="text" name="username" lay-verify="required" lay-reqtext="学号不能为空" placeholder="请输入学号"  th:value="${student.stuId}" class="layui-input">
-                    <tip>填写学号。</tip>
+                    <input type="text" name="username" lay-verify="required" lay-reqtext="学号不能为空" placeholder="请输入学号"  th:value="${session.student.stuId}" class="layui-input">
+                    <tip>填写学号</tip>
                 </div>
             </div>
             <div class="layui-form-item">

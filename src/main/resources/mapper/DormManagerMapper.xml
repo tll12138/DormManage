@@ -7,9 +7,10 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="building_no" jdbcType="VARCHAR" property="buildingNo" />
+    <result column="permission" jdbcType="INTEGER" property="permission" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, username, password, name, building_no
+    id, username, password, name, building_no, permission
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -17,15 +18,29 @@
     from dorm_manager
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from dorm_manager
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from dorm_manager
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from dorm_manager
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.dormmanage.bean.DormManager">
     insert into dorm_manager (id, username, password, 
-      name, building_no)
+      name, building_no, permission
+      )
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{buildingNo,jdbcType=VARCHAR})
+      #{name,jdbcType=VARCHAR}, #{buildingNo,jdbcType=VARCHAR}, #{permission,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.dormmanage.bean.DormManager">
     insert into dorm_manager
@@ -45,6 +60,9 @@
       <if test="buildingNo != null">
         building_no,
       </if>
+      <if test="permission != null">
+        permission,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -61,6 +79,9 @@
       </if>
       <if test="buildingNo != null">
         #{buildingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null">
+        #{permission,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -79,6 +100,9 @@
       <if test="buildingNo != null">
         building_no = #{buildingNo,jdbcType=VARCHAR},
       </if>
+      <if test="permission != null">
+        permission = #{permission,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -87,7 +111,8 @@
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      building_no = #{buildingNo,jdbcType=VARCHAR}
+      building_no = #{buildingNo,jdbcType=VARCHAR},
+      permission = #{permission,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

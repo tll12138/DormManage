@@ -6,9 +6,10 @@
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="permission" jdbcType="INTEGER" property="permission" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, username, password, name
+    id, username, password, name, permission
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -16,15 +17,21 @@
     from logistics_manager
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from logistics_manager
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from logistics_manager
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.dormmanage.bean.LogisticsManager">
     insert into logistics_manager (id, username, password, 
-      name)
+      name, permission)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR})
+      #{name,jdbcType=VARCHAR}, #{permission,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.example.dormmanage.bean.LogisticsManager">
     insert into logistics_manager
@@ -41,6 +48,9 @@
       <if test="name != null">
         name,
       </if>
+      <if test="permission != null">
+        permission,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -54,6 +64,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null">
+        #{permission,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -69,6 +82,9 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="permission != null">
+        permission = #{permission,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -76,7 +92,8 @@
     update logistics_manager
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR}
+      name = #{name,jdbcType=VARCHAR},
+      permission = #{permission,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

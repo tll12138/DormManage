@@ -11,6 +11,7 @@ public enum EmBusinessError implements CommonError{
     PARAMETER_NOT_LEGITIMATE(10001,"参数不正确"),
     USER_NOT_LOGIN(10002,"用户未登录"),
     FRONT_PARAMETER_NOT_LEGITIMATE(10003,"前端参数不正确"),
+    USER_NOT_EXIST(10004,"用户不存在"),
 
     /**
      * 20000开头，用户错误
@@ -18,11 +19,20 @@ public enum EmBusinessError implements CommonError{
     STUDENT_NOT_EXIST(20001,"该学生不存在"),
     STUDENTS_SELECT_NOT_SUCCESS(20002,"所有学生信息查找失败"),
     STUDENT_EXIST(20003,"该学生已存在"),
+    DORM_MANAGER_NOT_EXIST(20004,"该寝室管理员不存在"),
+
 
     /**
      * 30000开头，数据库错误
      */
-    DATABASE_NOT_SUCCESS(30001,"数据库数据不正确")
+    DATABASE_NOT_SUCCESS(30001,"数据库数据不正确"),
+
+    /**
+     * 40000开头，楼栋、寝室错误
+     */
+    BUILDING_IS_EXIST(40001,"该楼栋已存在"),
+    BUILD_ID_NOT_EXIST(40002,"该楼栋ID不存在，请重输"),
+    DORM_IS_EXIST(40003,"寝室已存在")
     ;
 
     private Integer errCode;

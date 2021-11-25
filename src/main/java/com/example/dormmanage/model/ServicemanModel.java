@@ -29,5 +29,9 @@ public class ServicemanModel {
      */
     private String name;
 
+    /**
+     * 权限
+     */
+    private Integer permission;
 
 }

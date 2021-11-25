@@ -27,6 +27,13 @@ public class CommonReturn {
         commonReturn.status=status;
         return commonReturn;
     }
+    public static CommonReturn create(Object data,Integer count){
+        CommonReturn commonReturn = new CommonReturn();
+        commonReturn.data=data;
+        commonReturn.count=count;
+        commonReturn.status="success";
+        return commonReturn;
+    }
     public static CommonReturn create(Object data,Integer count,String status){
         CommonReturn commonReturn = new CommonReturn();
         commonReturn.data=data;

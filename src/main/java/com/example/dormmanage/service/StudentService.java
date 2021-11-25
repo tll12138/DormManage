@@ -17,7 +17,7 @@ public interface StudentService {
      * @param stuId
      * @return
      */
-    StudentModel getStudent(String stuId);
+    StudentModel getStudent(String stuId) throws BusinessException;
 
     /**
      * 修改学生信息

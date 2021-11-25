@@ -6,28 +6,28 @@
             <div style="margin: 10px 10px 10px 10px">
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">学号</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="studentId" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">姓名</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="username" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
+<!--                        <div class="layui-inline">-->
+<!--                            <label class="layui-form-label">学号</label>-->
+<!--                            <div class="layui-input-inline">-->
+<!--                                <input type="text" name="studentId" autocomplete="off" class="layui-input">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="layui-inline">-->
+<!--                            <label class="layui-form-label">姓名</label>-->
+<!--                            <div class="layui-input-inline">-->
+<!--                                <input type="text" name="username" autocomplete="off" class="layui-input">-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="layui-inline">
                             <label class="layui-form-label">楼栋</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="building" autocomplete="off" class="layui-input">
+                                <input type="text" name="buildingNo" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">寝室</label>
+                            <label class="layui-form-label">管理员姓名</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="dormitory" autocomplete="off" class="layui-input">
+                                <input type="text" name="name" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -66,7 +66,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: '/user/users',
+            url: '/build/builds',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -81,21 +81,16 @@
                 };
             }, response: {
                 statusName: 'status' //规定数据状态的字段名称，默认：code
-                , statusCode: "200" //规定成功的状态码，默认：0
+                , statusCode: "success" //规定成功的状态码，默认：0
                 , msgName: '' //规定状态信息的字段名称，默认：msg
                 , countName: 'count' //规定数据总数的字段名称，默认：count
                 , dataName: 'data' //规定数据列表的字段名称，默认：data
             },
             cols: [[
                 {type: "checkbox", width: 50},
-                {field: 'id', width: 80, title: 'ID', sort: true},
-                {field: 'stuId', width: 120, title: '学号'},
-                {field: 'name', width: 80, title: '姓名'},
-                {field: 'buildingNo', width: 80, title: '楼栋', sort: true},
-                {field: 'dormitoryNo', title: '寝室号', minWidth: 120, sort: true},
-                {field: 'bedNo', width: 80, title: '床号', sort: true},
-                {field: 'checkInTime', width: 130, title: '入住时间', sort: true},
-                {field: 'checkOutTime', width: 130, title: '退宿时间', sort: true},
+                {field: 'id', width: 270, title: 'ID', sort: true},
+                {field: 'buildingNo', width: 270, title: '楼栋', sort: true},
+                {field: 'name', width: 270, title: '寝室管理员姓名'},
                 {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [5,10, 15, 20, 25, 50, 100],
@@ -108,21 +103,15 @@
         form.on('submit(data-search-btn)', function (data) {
             data = data.field;
             let result = {};
-            if (data.studentId!=''){
-                result.studentId = data.studentId;
+            if (data.buildingNo!=''){
+                result.buildingNo = data.buildingNo;
             }
-            if (data.username!=''){
-                result.username = data.username;
-            }
-            if(data.building!=''){
-                result.building = data.building;
-            }
-            if (data.dormitory!=''){
-                result.dormitory = data.dormitory;
+            if (data.name!=''){
+                result.name = data.name;
             }
             //执行搜索重载
             table.reload('currentTableId', {
-                url:"/user/select",
+                url:"/build/select",
                 page: {
                     curr: 1
                 }
@@ -138,7 +127,7 @@
         table.on('toolbar(currentTableFilter)', function (obj) {
             var data = obj.data;
             if (obj.event === 'add') {   // 监听添加操作
-                var content = miniPage.getHrefContent('pages/add.html');
+                var content = miniPage.getHrefContent('pages/buildAdd.html');
                 var openWH = miniPage.getOpenWidthHeight();
 
                 var index = layer.open({
@@ -154,31 +143,32 @@
                 $(window).on("resize", function () {
                     layer.full(index);
                 });
-            } else {
-                if (obj.event === 'delete') {  // 监听删除操作
-                    var seq = {};
-                    seq.stuId = data.stuId;
-                    $.ajax({
-                        dataType:"json",
-                        contentType: "application/json;charset=utf-8",
-                        url: "/user/delete",
-                        data: JSON.stringify(seq),
-                        xhrFields: {withCredentials: true},
-                        success:function (data){
-                            if (data.status == "success") {
-                                alert("删除成功");
-                                layer.alert(JSON.stringify(data));
-                            } else {
-                                alert("创建失败，原因为：" + data.data.errMsg);
-                            }
-                        },
-                        error: function (data) {
-                            alert("创建失败，原因为：" + data.responseText);
-                        }
-                    })
-                    return false;
-                }
             }
+            // else {
+            //     if (obj.event === 'delete') {  // 监听删除操作
+            //         var seq = {};
+            //         seq.id = data.id;
+            //         $.ajax({
+            //             dataType:"json",
+            //             contentType: "application/json;charset=utf-8",
+            //             url: "/build/delete",
+            //             data: JSON.stringify(seq),
+            //             xhrFields: {withCredentials: true},
+            //             success:function (data){
+            //                 if (data.status == "success") {
+            //                     alert("删除成功");
+            //                     layer.alert(JSON.stringify(data));
+            //                 } else {
+            //                     alert("创建失败，原因为：" + data.data.errMsg);
+            //                 }
+            //             },
+            //             error: function (data) {
+            //                 alert("创建失败，原因为：" + data.responseText);
+            //             }
+            //         })
+            //         return false;
+            //     }
+            // }
         });
 
         //监听表格复选框选择
@@ -190,7 +180,7 @@
             let data = obj.data;
             if (obj.event === 'edit') {
 
-                var content = miniPage.getHrefContent('pages/edit.html');
+                var content = miniPage.getHrefContent('pages/buildEdit.html?id='+data.id);
                 var openWH = miniPage.getOpenWidthHeight();
 
                 var index = layer.open({
@@ -210,12 +200,12 @@
             } else if (obj.event === 'delete') {
                 layer.confirm('真的删除行么', function (index) {
                     var req={};
-                    req.stuId=data.stuId;
+                    req.id=data.id;
                     $.ajax({
                         dataType:"json",
                         type:"delete",
                         contentType: "application/json;charset=utf-8",
-                        url: "/user/delete",
+                        url: "/build/delete",
                         data: JSON.stringify(req),
                         xhrFields: {withCredentials: true},
                         success:function (data){

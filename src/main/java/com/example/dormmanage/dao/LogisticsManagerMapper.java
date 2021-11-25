@@ -11,6 +11,8 @@ public interface LogisticsManagerMapper {
 
     LogisticsManager selectByPrimaryKey(Integer id);
 
+    LogisticsManager selectByUsername(String Username);
+
     int updateByPrimaryKeySelective(LogisticsManager record);
 
     int updateByPrimaryKey(LogisticsManager record);
