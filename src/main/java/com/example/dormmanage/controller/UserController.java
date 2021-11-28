@@ -1,9 +1,6 @@
 package com.example.dormmanage.controller;
 
-import com.example.dormmanage.bean.StudentInfo;
 import com.example.dormmanage.controller.VO.StudentVo;
-import com.example.dormmanage.dao.StudentInfoMapper;
-import com.example.dormmanage.dao.StudentPasswordMapper;
 import com.example.dormmanage.error.BusinessException;
 import com.example.dormmanage.error.EmBusinessError;
 import com.example.dormmanage.model.DormManagerModel;
@@ -15,29 +12,16 @@ import com.example.dormmanage.service.DormManagerService;
 import com.example.dormmanage.service.LogisticsManagerService;
 import com.example.dormmanage.service.ServiceManService;
 import com.example.dormmanage.service.StudentService;
-import com.sun.deploy.net.HttpResponse;
 import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.annotation.SessionScope;
-import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.swing.*;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.rmi.MarshalledObject;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 

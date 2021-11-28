@@ -87,7 +87,7 @@ public class BuildManageServiceImpl implements BulidManageService {
         String name = (String) map.get("name");
         DormManager dormManager = dormManagerMapper.selectByName(name);
         map.put("dormManagerId", dormManager.getId());
-        Integer id = (Integer) map.get("id");
+        Integer id = Integer.parseInt((String) map.get("id"));
         if (id==null){
             throw new BusinessException(EmBusinessError.BUILD_ID_NOT_EXIST);
         }

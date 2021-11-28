@@ -5,16 +5,14 @@
             <label class="layui-form-label required">学号</label>
             <div class="layui-input-block">
                 <input type="text" name="stuId" lay-verify="required" lay-reqtext="学号不能为空" placeholder="请输入学号" value=""
-                       class="layui-input">
-                <tip>填写学生的学号。</tip>
+                       class="layui-input" readonly="readonly">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label required">姓名</label>
             <div class="layui-input-block">
                 <input type="text" name="name" lay-verify="required" lay-reqtext="姓名不能为空" placeholder="请输入姓名"
-                       value="" class="layui-input">
-                <tip>填写学生的姓名。</tip>
+                       value="" class="layui-input" readonly="readonly">
             </div>
         </div>
         <div class="layui-form-item">
@@ -60,12 +58,18 @@
          * 初始化表单，要加上，不然刷新部分组件可能会不加载
          */
         form.render();
+        var stuId =sessionStorage.getItem("stuId");
+        var name = sessionStorage.getItem("name");
+        document.getElementsByName("stuId")[0].value = stuId;
+        document.getElementsByName("name")[0].value = name;
 
         // // 当前弹出层，防止ID被覆盖
         // var parentIndex = layer.index;
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
+            sessionStorage.removeItem("stuId");
+            sessionStorage.removeItem("name");
             data=data.field;
             $.ajax({
                 type:"POST",

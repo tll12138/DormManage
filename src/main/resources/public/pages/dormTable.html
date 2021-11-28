@@ -43,14 +43,14 @@
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
                 <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
-<!--                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除</button>-->
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="edit"> 编辑</button>
             </div>
         </script>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="select" >详情</a>
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
         </script>
 
@@ -106,12 +106,12 @@
             if (data.buildingNo!=''){
                 result.buildingNo = data.buildingNo;
             }
-            if (data.name!=''){
-                result.name = data.name;
+            if (data.dormitoryNo!=''){
+                result.dormitoryNo = data.dormitoryNo;
             }
             //执行搜索重载
             table.reload('currentTableId', {
-                url:"/build/select",
+                url:"/dorm/select",
                 page: {
                     curr: 1
                 }
@@ -144,31 +144,28 @@
                     layer.full(index);
                 });
             }
-            // else {
-            //     if (obj.event === 'delete') {  // 监听删除操作
-            //         var seq = {};
-            //         seq.id = data.id;
-            //         $.ajax({
-            //             dataType:"json",
-            //             contentType: "application/json;charset=utf-8",
-            //             url: "/build/delete",
-            //             data: JSON.stringify(seq),
-            //             xhrFields: {withCredentials: true},
-            //             success:function (data){
-            //                 if (data.status == "success") {
-            //                     alert("删除成功");
-            //                     layer.alert(JSON.stringify(data));
-            //                 } else {
-            //                     alert("创建失败，原因为：" + data.data.errMsg);
-            //                 }
-            //             },
-            //             error: function (data) {
-            //                 alert("创建失败，原因为：" + data.responseText);
-            //             }
-            //         })
-            //         return false;
-            //     }
-            // }
+            else {
+                if (obj.event === 'edit') {
+
+                    var content = miniPage.getHrefContent('pages/dormEdit.html');
+                    var openWH = miniPage.getOpenWidthHeight();
+
+                    var index = layer.open({
+                        title: '编辑用户',
+                        type: 1,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: [openWH[0] + 'px', openWH[1] + 'px'],
+                        offset: [openWH[2] + 'px', openWH[3] + 'px'],
+                        content: content,
+                    });
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                    return false;
+                }
+            }
         });
 
         //监听表格复选框选择
@@ -178,13 +175,16 @@
 
         table.on('tool(currentTableFilter)', function (obj) {
             let data = obj.data;
-            if (obj.event === 'edit') {
+            if (obj.event === 'select') {
 
-                var content = miniPage.getHrefContent('pages/buildEdit.html?id='+data.id);
+                var content = miniPage.getHrefContent('pages/dormDetails.html');
                 var openWH = miniPage.getOpenWidthHeight();
 
+                sessionStorage.setItem("buildingNo",data.buildingNo);
+                sessionStorage.setItem("dormitoryNo",data.dormitoryNo);
+
                 var index = layer.open({
-                    title: '编辑用户',
+                    title: '寝室详情',
                     type: 1,
                     shade: 0.2,
                     maxmin: true,

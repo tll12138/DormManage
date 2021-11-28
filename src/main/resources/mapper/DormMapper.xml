@@ -16,7 +16,7 @@
         from dorm
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="selectByMapPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    <select id="selectByMapSelective" parameterType="map" resultMap="BaseResultMap">
         select id,building_no,dormitory_no
         from dorm
         <trim prefix="where" prefixOverrides="and | or">
@@ -30,6 +30,22 @@
                 and dormitory_no = #{dormitoryNo,jdbcType=INTEGER}
             </if>
         </trim>
+    </select>
+    <select id="selectSelective" parameterType="map" resultMap="BaseResultMap">
+        select id,building_no,dormitory_no
+        from dorm
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="buildingNo != null">
+                and building_no = #{buildingNo,jdbcType=VARCHAR}
+            </if>
+            <if test="dormitoryNo != null">
+                and dormitory_no = #{dormitoryNo,jdbcType=INTEGER}
+            </if>
+        </trim>
+        limit #{page},#{size}
     </select>
     <select id="selectDorms" parameterType="map" resultMap="BaseResultMap">
         select id, building_no, dormitory_no

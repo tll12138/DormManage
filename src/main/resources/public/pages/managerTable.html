@@ -6,28 +6,22 @@
             <div style="margin: 10px 10px 10px 10px">
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
-<!--                        <div class="layui-inline">-->
-<!--                            <label class="layui-form-label">学号</label>-->
-<!--                            <div class="layui-input-inline">-->
-<!--                                <input type="text" name="studentId" autocomplete="off" class="layui-input">-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="layui-inline">-->
-<!--                            <label class="layui-form-label">姓名</label>-->
-<!--                            <div class="layui-input-inline">-->
-<!--                                <input type="text" name="username" autocomplete="off" class="layui-input">-->
-<!--                            </div>-->
-<!--                        </div>-->
                         <div class="layui-inline">
-                            <label class="layui-form-label">楼栋</label>
+                            <label class="layui-form-label">用户名</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="buildingNo" autocomplete="off" class="layui-input">
+                                <input type="text" name="username" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">管理员姓名</label>
+                            <label class="layui-form-label">姓名</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="name" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">身份</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="identity" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -43,14 +37,14 @@
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
                 <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
-<!--                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除</button>-->
+<!--                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="edit"> 编辑</button>-->
             </div>
         </script>
 
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+<!--            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="select" >详情</a>-->
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
         </script>
 
@@ -66,7 +60,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: '/build/builds',
+            url: '/manager/managers',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -88,9 +82,9 @@
             },
             cols: [[
                 {type: "checkbox", width: 50},
-                {field: 'id', width: 270, title: 'ID', sort: true},
-                {field: 'buildingNo', width: 270, title: '楼栋', sort: true},
-                {field: 'name', width: 270, title: '寝室管理员姓名'},
+                {field: 'username', width: 270, title: '用户名', sort: true},
+                {field: 'name', width: 270, title: '姓名',sort: true},
+                {field: 'identity', width: 270, title: '身份',sort: true},
                 {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [5,10, 15, 20, 25, 50, 100],
@@ -103,15 +97,18 @@
         form.on('submit(data-search-btn)', function (data) {
             data = data.field;
             let result = {};
-            if (data.buildingNo!=''){
-                result.buildingNo = data.buildingNo;
+            if (data.username!=''){
+                result.username = data.username;
             }
             if (data.name!=''){
                 result.name = data.name;
             }
+            if (data.identity!=''){
+                result.identity = data.identity;
+            }
             //执行搜索重载
             table.reload('currentTableId', {
-                url:"/build/select",
+                url:"/manager/select",
                 page: {
                     curr: 1
                 }
@@ -127,7 +124,7 @@
         table.on('toolbar(currentTableFilter)', function (obj) {
             var data = obj.data;
             if (obj.event === 'add') {   // 监听添加操作
-                var content = miniPage.getHrefContent('pages/buildAdd.html');
+                var content = miniPage.getHrefContent('pages/managerAdd.html');
                 var openWH = miniPage.getOpenWidthHeight();
 
                 var index = layer.open({
@@ -145,27 +142,24 @@
                 });
             }
             // else {
-            //     if (obj.event === 'delete') {  // 监听删除操作
-            //         var seq = {};
-            //         seq.id = data.id;
-            //         $.ajax({
-            //             dataType:"json",
-            //             contentType: "application/json;charset=utf-8",
-            //             url: "/build/delete",
-            //             data: JSON.stringify(seq),
-            //             xhrFields: {withCredentials: true},
-            //             success:function (data){
-            //                 if (data.status == "success") {
-            //                     alert("删除成功");
-            //                     layer.alert(JSON.stringify(data));
-            //                 } else {
-            //                     alert("创建失败，原因为：" + data.data.errMsg);
-            //                 }
-            //             },
-            //             error: function (data) {
-            //                 alert("创建失败，原因为：" + data.responseText);
-            //             }
-            //         })
+            //     if (obj.event === 'edit') {
+            //
+            //         var content = miniPage.getHrefContent('pages/dormEdit.html');
+            //         var openWH = miniPage.getOpenWidthHeight();
+            //
+            //         var index = layer.open({
+            //             title: '编辑用户',
+            //             type: 1,
+            //             shade: 0.2,
+            //             maxmin: true,
+            //             shadeClose: true,
+            //             area: [openWH[0] + 'px', openWH[1] + 'px'],
+            //             offset: [openWH[2] + 'px', openWH[3] + 'px'],
+            //             content: content,
+            //         });
+            //         $(window).on("resize", function () {
+            //             layer.full(index);
+            //         });
             //         return false;
             //     }
             // }
@@ -178,36 +172,39 @@
 
         table.on('tool(currentTableFilter)', function (obj) {
             let data = obj.data;
-            if (obj.event === 'edit') {
-
-                var content = miniPage.getHrefContent('pages/buildEdit.html');
-                var openWH = miniPage.getOpenWidthHeight();
-
-                sessionStorage.setItem("id",data.id);
-
-                var index = layer.open({
-                    title: '编辑用户',
-                    type: 1,
-                    shade: 0.2,
-                    maxmin: true,
-                    shadeClose: true,
-                    area: [openWH[0] + 'px', openWH[1] + 'px'],
-                    offset: [openWH[2] + 'px', openWH[3] + 'px'],
-                    content: content,
-                });
-                $(window).on("resize", function () {
-                    layer.full(index);
-                });
-                return false;
-            } else if (obj.event === 'delete') {
+            // if (obj.event === 'select') {
+            //
+            //     var content = miniPage.getHrefContent('pages/dormDetails.html');
+            //     var openWH = miniPage.getOpenWidthHeight();
+            //
+            //     sessionStorage.setItem("buildingNo",data.buildingNo);
+            //     sessionStorage.setItem("dormitoryNo",data.dormitoryNo);
+            //
+            //     var index = layer.open({
+            //         title: '寝室详情',
+            //         type: 1,
+            //         shade: 0.2,
+            //         maxmin: true,
+            //         shadeClose: true,
+            //         area: [openWH[0] + 'px', openWH[1] + 'px'],
+            //         offset: [openWH[2] + 'px', openWH[3] + 'px'],
+            //         content: content,
+            //     });
+            //     $(window).on("resize", function () {
+            //         layer.full(index);
+            //     });
+            //     return false;
+            // }
+            if (obj.event === 'delete') {
                 layer.confirm('真的删除行么', function (index) {
                     var req={};
-                    req.id=data.id;
+                    req.username=data.username;
+                    req.identity = data.identity;
                     $.ajax({
                         dataType:"json",
                         type:"delete",
                         contentType: "application/json;charset=utf-8",
-                        url: "/build/delete",
+                        url: "/manager/delete",
                         data: JSON.stringify(req),
                         xhrFields: {withCredentials: true},
                         success:function (data){
@@ -216,11 +213,11 @@
                                 obj.del();
                                 layer.close(index);
                             } else {
-                                alert("创建失败，原因为：" + data.data.errMsg);
+                                alert("删除失败，原因为：" + data.data.errMsg);
                             }
                         },
                         error: function (data) {
-                            alert("创建失败，原因为：" + data.responseText);
+                            alert("删除失败，原因为：" + data.responseText);
                         }
                     })
                     return false;

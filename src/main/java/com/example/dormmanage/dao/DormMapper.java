@@ -16,7 +16,9 @@ public interface DormMapper {
 
     Dorm selectByPrimaryKey(Integer id);
 
-    Dorm selectByMapPrimaryKey(Map<String,Object> map);
+    Dorm selectByMapSelective(Map<String,Object> map);
+
+    List<Dorm> selectSelective(Map<String,Object> map);
 
     List<Dorm> selectDorms(Map<String,Object> map);
 

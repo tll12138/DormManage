@@ -1,0 +1,112 @@
+<div class="layuimini-main">
+
+    <div class="layui-form layuimini-form">
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label required">楼栋</label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <input type="text" name="buildingNo" lay-verify="required"-->
+<!--                       value="" class="layui-input" readonly="readonly">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label required">寝室号</label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <input type="text" name="dormitoryNo" lay-verify="required"-->
+<!--                       value="" class="layui-input" readonly="readonly">-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">床位A</label>
+            <div class="layui-input-block">
+                <input type="text" name="beda" lay-verify="required"
+                        value="无" class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">床位B</label>
+            <div class="layui-input-block">
+                <input type="text" name="bedb" lay-verify="required"
+                        value="无" class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">床位C</label>
+            <div class="layui-input-block">
+                <input type="text" name="bedc" lay-verify="required"
+                        value="无" class="layui-input" readonly="readonly">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">床位D</label>
+            <div class="layui-input-block">
+                <input type="text" name="bedd" lay-verify="required"
+                        value="无" class="layui-input" readonly="readonly">
+            </div>
+        </div>
+
+<!--        <div class="layui-form-item">-->
+<!--            <div class="layui-input-block">-->
+<!--                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+</div>
+<script>
+    layui.use(['form', 'table'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            table = layui.table,
+            $ = layui.$;
+        /**
+         * 初始化表单，要加上，不然刷新部分组件可能会不加载
+         */
+        form.render();
+        var buildingNo = sessionStorage.getItem("buildingNo");
+        var dormitoryNo = sessionStorage.getItem("dormitoryNo");
+
+        $.ajax({
+            url: '/dorm/beds?buildingNo='+buildingNo+'&dormitoryNo='+dormitoryNo,
+            success:function (data){
+                var beda = data.data.beda;
+                var bedb = data.data.bedb;
+                var bedc = data.data.bedc;
+                var bedd = data.data.bedd;
+                document.getElementsByName("beda")[0].value = beda;
+                document.getElementsByName("bedb")[0].value = bedb;
+                document.getElementsByName("bedc")[0].value = bedc;
+                document.getElementsByName("bedd")[0].value = bedd;
+
+                sessionStorage.removeItem("buildingNo");
+                sessionStorage.removeItem("dormitoryNo");
+            }
+        })
+
+        // // 当前弹出层，防止ID被覆盖
+        // var parentIndex = layer.index;
+
+        //监听提交
+        // form.on('submit(saveBtn)', function (data) {
+        //     data=data.field;
+        //     $.ajax({
+        //         type:"POST",
+        //         url:"/dorm/edit",
+        //         dataType:"json",
+        //         contentType: "application/json;charset=utf-8",
+        //         data:JSON.stringify(data),
+        //         success:function (data){
+        //             if (data.status=="success"){
+        //                 alert("修改成功");
+        //                 layer.close(index);
+        //             }else {
+        //                 alert("修改失败"+data.data.errMsg);
+        //             }
+        //         },
+        //         error:function (data){
+        //             alert("修改失败"+data.responseText);
+        //         }
+        //     })
+        //     return false;
+        // });
+
+    });
+</script>

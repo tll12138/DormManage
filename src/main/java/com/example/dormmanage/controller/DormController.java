@@ -2,6 +2,7 @@ package com.example.dormmanage.controller;
 
 import com.example.dormmanage.error.BusinessException;
 import com.example.dormmanage.error.EmBusinessError;
+import com.example.dormmanage.model.BedsModel;
 import com.example.dormmanage.model.DormModel;
 import com.example.dormmanage.response.CommonReturn;
 import com.example.dormmanage.service.DormService;
@@ -56,5 +57,35 @@ public class DormController extends BaseController{
         }
         dormService.delete(map);
         return CommonReturn.create(null);
+    }
+
+    @RequestMapping("/edit")
+    @ResponseBody
+    public CommonReturn edit(@RequestBody Map<String,Object> map) throws BusinessException {
+        if (map==null){
+            throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
+        }
+        dormService.editBedsForDorm(map);
+        return CommonReturn.create(null);
+    }
+
+    @RequestMapping("/select")
+    @ResponseBody
+    public CommonReturn select(@RequestParam Map<String,Object> map) throws BusinessException {
+        if (map==null){
+            throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
+        }
+        List<DormModel> dormModels = dormService.selectByMap(map);
+        return CommonReturn.create(dormModels, dormModels.size());
+    }
+
+    @RequestMapping("/beds")
+    @ResponseBody
+    public CommonReturn getBeds(@RequestParam Map<String,Object> map) throws BusinessException {
+        if (map==null){
+            throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
+        }
+        BedsModel beds = dormService.getBeds(map);
+        return CommonReturn.create(beds,1);
     }
 }

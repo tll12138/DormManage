@@ -64,7 +64,62 @@
       </if>
     </trim>
   </insert>
+  <insert id="insertSelectiveByMap" parameterType="map">
+    insert into beds_manager
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dormId != null">
+        dorm_id,
+      </if>
+      <if test="beda != null">
+        bedA,
+      </if>
+      <if test="bedb != null">
+        bedB,
+      </if>
+      <if test="bedc != null">
+        bedC,
+      </if>
+      <if test="bedd != null">
+        bedD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dormId != null">
+        #{dormId,jdbcType=INTEGER},
+      </if>
+      <if test="beda != null">
+        #{beda,jdbcType=VARCHAR},
+      </if>
+      <if test="bedb != null">
+        #{bedb,jdbcType=VARCHAR},
+      </if>
+      <if test="bedc != null">
+        #{bedc,jdbcType=VARCHAR},
+      </if>
+      <if test="bedd != null">
+        #{bedd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.dormmanage.bean.BedsManager">
+    update beds_manager
+    <set>
+      <if test="beda != null">
+        bedA = #{beda,jdbcType=VARCHAR},
+      </if>
+      <if test="bedb != null">
+        bedB = #{bedb,jdbcType=VARCHAR},
+      </if>
+      <if test="bedc != null">
+        bedC = #{bedc,jdbcType=VARCHAR},
+      </if>
+      <if test="bedd != null">
+        bedD = #{bedd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dorm_id = #{dormId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByMapSelective" parameterType="map">
     update beds_manager
     <set>
       <if test="beda != null">

@@ -20,7 +20,11 @@ public enum EmBusinessError implements CommonError{
     STUDENTS_SELECT_NOT_SUCCESS(20002,"所有学生信息查找失败"),
     STUDENT_EXIST(20003,"该学生已存在"),
     DORM_MANAGER_NOT_EXIST(20004,"该寝室管理员不存在"),
-
+    DORM_MANAGER_IS_EXIST(20005,"该寝室管理员已存在"),
+    LOGISTICS_MANAGER_IS_EXIST(20006,"该后勤管理员已存在"),
+    LOGISTICS_MANAGER_NOT_EXIST(20007,"该后勤管理员不存在"),
+    SERVICE_MAN_NOT_EXIST(20008,"该维修员不存在"),
+    SERVICE_MAN_IS_EXIST(20009,"该维修员已存在"),
 
     /**
      * 30000开头，数据库错误
@@ -32,7 +36,8 @@ public enum EmBusinessError implements CommonError{
      */
     BUILDING_IS_EXIST(40001,"该楼栋已存在"),
     BUILD_ID_NOT_EXIST(40002,"该楼栋ID不存在，请重输"),
-    DORM_IS_EXIST(40003,"寝室已存在")
+    DORM_IS_EXIST(40003,"寝室已存在"),
+    DORM_NOT_EXIST(40004,"寝室不存在")
     ;
 
     private Integer errCode;

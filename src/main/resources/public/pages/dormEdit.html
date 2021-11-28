@@ -9,14 +9,14 @@
         <!--                <tip>填写学生的学号。</tip>-->
         <!--            </div>-->
         <!--        </div>-->
-        <div class="layui-form-item">
-            <label class="layui-form-label required">ID</label>
-            <div class="layui-input-block">
-                <input type="text" name="id" lay-verify="required" lay-reqtext="id不能为空"
-                        value="" class="layui-input" readonly="readonly">
-                <tip></tip>
-            </div>
-        </div>
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label required">ID</label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <input type="text" name="id" lay-verify="required" lay-reqtext="id不能为空"-->
+<!--                        value="" class="layui-input">-->
+<!--                <tip>填写id,id不可修改</tip>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="layui-form-item">
             <label class="layui-form-label required">楼栋</label>
             <div class="layui-input-block">
@@ -26,11 +26,43 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label required">管理员姓名</label>
+            <label class="layui-form-label required">寝室号</label>
             <div class="layui-input-block">
-                <input type="text" name="name" lay-verify="required" lay-reqtext="管理员姓名不能为空" placeholder="请输入管理员姓名"
+                <input type="text" name="dormitoryNo" lay-verify="required" lay-reqtext="寝室号不能为空" placeholder="请输入寝室号"
                        value="" class="layui-input">
-                <tip>填写管理员的姓名。</tip>
+                <tip>填写寝室号。</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">床位A</label>
+            <div class="layui-input-block">
+                <input type="text" name="beda" lay-verify="required"
+                       placeholder="请输入床位" value="" class="layui-input">
+                <tip>填写床位A的学生。</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">床位B</label>
+            <div class="layui-input-block">
+                <input type="text" name="bedb" lay-verify="required"
+                       placeholder="请输入床位" value="" class="layui-input">
+                <tip>填写床位B的学生。</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">床位C</label>
+            <div class="layui-input-block">
+                <input type="text" name="bedc" lay-verify="required"
+                       placeholder="请输入床位" value="" class="layui-input">
+                <tip>填写床位C的学生。</tip>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">床位D</label>
+            <div class="layui-input-block">
+                <input type="text" name="bedd" lay-verify="required"
+                       placeholder="请输入床位" value="" class="layui-input">
+                <tip>填写床位D的学生。</tip>
             </div>
         </div>
 <!--        <div class="layui-form-item">-->
@@ -41,14 +73,7 @@
 <!--                <tip>填写学生的寝室号。</tip>-->
 <!--            </div>-->
 <!--        </div>-->
-<!--        <div class="layui-form-item">-->
-<!--            <label class="layui-form-label">床位</label>-->
-<!--            <div class="layui-input-block">-->
-<!--                <input type="text" name="bedNo" lay-verify="required" lay-reqtext="床位不能为空"-->
-<!--                       placeholder="请输入床位" value="" class="layui-input">-->
-<!--                <tip>填写学生的床位。</tip>-->
-<!--            </div>-->
-<!--        </div>-->
+
 
         <div class="layui-form-item">
             <div class="layui-input-block">
@@ -67,9 +92,6 @@
          * 初始化表单，要加上，不然刷新部分组件可能会不加载
          */
         form.render();
-        var id = sessionStorage.getItem("id");
-
-        document.getElementsByName("id")[0].value = id;
 
         // // 当前弹出层，防止ID被覆盖
         // var parentIndex = layer.index;
@@ -77,10 +99,9 @@
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             data=data.field;
-            sessionStorage.removeItem("id");
             $.ajax({
                 type:"POST",
-                url:"/build/edit",
+                url:"/dorm/edit",
                 dataType:"json",
                 contentType: "application/json;charset=utf-8",
                 data:JSON.stringify(data),

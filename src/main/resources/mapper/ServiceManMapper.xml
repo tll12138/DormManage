@@ -23,6 +23,32 @@
     from service_man
     where username = #{username,jdbcType=VARCHAR}
   </select>
+  <select id="selectByMap" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id,username,password,name,permission
+    from service_man
+    <trim prefix="where" prefixOverrides="and | or">
+      <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="username != null">
+        and username = #{username}
+      </if>
+      <if test="password != null">
+        and password = #{password}
+      </if>
+      <if test="name != null">
+        and name = #{name}
+      </if>
+      <if test="permission != null">
+        and permission = #{permission}
+      </if>
+    </trim>
+    limit #{page},#{size}
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(*)
+    from dorm
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from service_man
     where id = #{id,jdbcType=INTEGER}
@@ -34,6 +60,43 @@
       #{name,jdbcType=VARCHAR}, #{permission,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.example.dormmanage.bean.ServiceMan">
+    insert into service_man
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="permission != null">
+        permission,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null">
+        #{permission,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelectiveByMap" parameterType="map" useGeneratedKeys="true" keyProperty="id">
     insert into service_man
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

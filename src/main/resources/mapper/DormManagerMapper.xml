@@ -30,9 +30,42 @@
     from dorm_manager
     where name = #{name,jdbcType=VARCHAR}
   </select>
+  <select id="selectByMap" parameterType="map" resultMap="BaseResultMap">
+    select id,username,password,name,building_no,permission
+    from dorm_manager
+    <trim prefix="where" prefixOverrides="and | or">
+      <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="username != null">
+        and username = #{username}
+      </if>
+      <if test="password != null">
+        and password = #{password}
+      </if>
+      <if test="name != null">
+        and name = #{name}
+      </if>
+      <if test="building_no != null">
+        and building_no = #{building_no}
+      </if>
+      <if test="permission != null">
+        and permission = #{permission}
+      </if>
+    </trim>
+    limit #{page},#{size}
+  </select>
+  <select id="selectCounts" resultType="java.lang.Integer">
+    select count(*)
+    from student_info
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from dorm_manager
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByMap" parameterType="map">
+    delete from dorm_manager
+    where username = #{username,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.example.dormmanage.bean.DormManager">
     insert into dorm_manager (id, username, password, 
@@ -43,6 +76,50 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.example.dormmanage.bean.DormManager">
+    insert into dorm_manager
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="buildingNo != null">
+        building_no,
+      </if>
+      <if test="permission != null">
+        permission,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="buildingNo != null">
+        #{buildingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null">
+        #{permission,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelectiveByMap" parameterType="map" useGeneratedKeys="true"
+          keyProperty="id">
     insert into dorm_manager
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

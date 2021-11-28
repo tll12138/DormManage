@@ -192,6 +192,8 @@
 
                 var content = miniPage.getHrefContent('pages/edit.html');
                 var openWH = miniPage.getOpenWidthHeight();
+                sessionStorage.setItem("stuId",data.stuId);
+                sessionStorage.setItem("name",data.name);
 
                 var index = layer.open({
                     title: '编辑用户',

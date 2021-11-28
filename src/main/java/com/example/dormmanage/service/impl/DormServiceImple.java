@@ -6,6 +6,7 @@ import com.example.dormmanage.bean.Dorm;
 import com.example.dormmanage.dao.DormMapper;
 import com.example.dormmanage.error.BusinessException;
 import com.example.dormmanage.error.EmBusinessError;
+import com.example.dormmanage.model.BedsModel;
 import com.example.dormmanage.model.DormModel;
 import com.example.dormmanage.service.DormService;
 import org.springframework.beans.BeanUtils;
@@ -55,12 +56,12 @@ public class DormServiceImple implements DormService {
 
     @Override
     public void addDorm(Map<String, Object> map) throws BusinessException {
-        Dorm dorm = dormMapper.selectByMapPrimaryKey(map);
+        Dorm dorm = dormMapper.selectByMapSelective(map);
         if (dorm!=null){
             throw new BusinessException(EmBusinessError.DORM_IS_EXIST);
         }
         dormMapper.insertSelectiveByMap(map);
-        Dorm newDorm = dormMapper.selectByMapPrimaryKey(map);
+        Dorm newDorm = dormMapper.selectByMapSelective(map);
         BedsManager bedsManager = new BedsManager();
         bedsManager.setBeda("");
         bedsManager.setBedb("");
@@ -81,6 +82,45 @@ public class DormServiceImple implements DormService {
         bedsManagerMapper.deleteByPrimaryKey(id);
     }
 
+    @Override
+    public void editBedsForDorm(Map<String, Object> map) throws BusinessException {
+        Dorm dorm = dormMapper.selectByMapSelective(map);
+        if (dorm==null){
+            throw new BusinessException(EmBusinessError.DORM_NOT_EXIST);
+        }
+        map.put("dormId", dorm.getId());
+        bedsManagerMapper.updateByMapSelective(map);
+    }
+
+    @Override
+    public List<DormModel> selectByMap(Map<String, Object> map) throws BusinessException {
+        Integer page = 1,size=5;
+        if (map.containsKey("limit")){
+            size=Integer.parseInt(map.get("limit").toString());
+            map.put("size", size);
+        }
+        if (map.containsKey("page")){
+            page= Integer.parseInt(map.get("page").toString());
+            map.put("page", (page-1)*size);
+        }
+        List<Dorm> dorms = dormMapper.selectSelective(map);
+        if (dorms==null){
+            throw new BusinessException(EmBusinessError.DORM_NOT_EXIST);
+        }
+        List<DormModel> dormModels = convertModelFromBean(dorms);
+        return dormModels;
+    }
+
+    @Override
+    public BedsModel getBeds(Map<String, Object> map) throws BusinessException {
+        Integer dormitoryNo = Integer.parseInt((String) map.get("dormitoryNo"));
+        map.put("dormitoryNo",dormitoryNo);
+        Dorm dorm = dormMapper.selectByMapSelective(map);
+        BedsManager bedsManager = bedsManagerMapper.selectByPrimaryKey(dorm.getId());
+        BedsModel bedsModel = convertModelFromBean(bedsManager);
+        return bedsModel;
+    }
+
     private List<DormModel> convertModelFromBean(List<Dorm> list){
         List<DormModel> dormModels = new ArrayList<>();
         for (Dorm dorm:list){
@@ -89,5 +129,12 @@ public class DormServiceImple implements DormService {
             dormModels.add(dormModel);
         }
         return dormModels;
+    }
+
+    private BedsModel convertModelFromBean(BedsManager bedsManager){
+        BedsModel bedsModel = new BedsModel();
+        BeanUtils.copyProperties(bedsManager, bedsModel);
+        bedsModel.setDormNo(bedsManager.getDormId());
+        return bedsModel;
     }
 }
