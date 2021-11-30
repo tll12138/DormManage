@@ -5,10 +5,10 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="dorm_id" jdbcType="INTEGER" property="dormId" />
     <result column="matter" jdbcType="VARCHAR" property="matter" />
-    <result column="service_man_id" jdbcType="INTEGER" property="serviceManId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, dorm_id, matter, service_man_id
+    id, dorm_id, matter, state
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -16,15 +16,25 @@
     from dorm_maintenance
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectRepairs" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from dorm_maintenance
+    limit #{page},#{size}
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(*)
+    from dorm_maintenance
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from dorm_maintenance
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.dormmanage.bean.DormMaintenance">
     insert into dorm_maintenance (id, dorm_id, matter, 
-      service_man_id)
+      state)
     values (#{id,jdbcType=INTEGER}, #{dormId,jdbcType=INTEGER}, #{matter,jdbcType=VARCHAR}, 
-      #{serviceManId,jdbcType=INTEGER})
+      #{state,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.dormmanage.bean.DormMaintenance">
     insert into dorm_maintenance
@@ -38,8 +48,8 @@
       <if test="matter != null">
         matter,
       </if>
-      <if test="serviceManId != null">
-        service_man_id,
+      <if test="state != null">
+        state,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -52,8 +62,39 @@
       <if test="matter != null">
         #{matter,jdbcType=VARCHAR},
       </if>
-      <if test="serviceManId != null">
-        #{serviceManId,jdbcType=INTEGER},
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelectiveByMap" parameterType="map" keyProperty="id" useGeneratedKeys="true">
+    insert into dorm_maintenance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dormId != null">
+        dorm_id,
+      </if>
+      <if test="matter != null">
+        matter,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dormId != null">
+        #{dormId,jdbcType=INTEGER},
+      </if>
+      <if test="matter != null">
+        #{matter,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -66,9 +107,22 @@
       <if test="matter != null">
         matter = #{matter,jdbcType=VARCHAR},
       </if>
-      <if test="serviceManId != null">
-        service_man_id = #{serviceManId,jdbcType=INTEGER},
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
       </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByIdSelective" parameterType="java.lang.Integer">
+    update dorm_maintenance
+    <set>
+      <if test="dormId != null">
+        dorm_id = #{dormId,jdbcType=INTEGER},
+      </if>
+      <if test="matter != null">
+        matter = #{matter,jdbcType=VARCHAR},
+      </if>
+        state = '完成',
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -76,7 +130,7 @@
     update dorm_maintenance
     set dorm_id = #{dormId,jdbcType=INTEGER},
       matter = #{matter,jdbcType=VARCHAR},
-      service_man_id = #{serviceManId,jdbcType=INTEGER}
+      state = #{state,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

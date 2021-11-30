@@ -55,42 +55,42 @@
 <!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
 <!--            <property name="useActualColumnNames" value="false"/>-->
 <!--        </table>-->
-        <table tableName="dorm_manager" enableSelectByExample="false"
-               enableDeleteByExample="false" enableCountByExample="false"
-               enableUpdateByExample="false" selectByExampleQueryId="false">
-            <property name="ignoreQualifiersAtRuntime" value="false"/>
-            <property name="useActualColumnNames" value="false"/>
-        </table>
-        <table tableName="logistics_manager" enableSelectByExample="false"
-               enableDeleteByExample="false" enableCountByExample="false"
-               enableUpdateByExample="false" selectByExampleQueryId="false">
-            <property name="ignoreQualifiersAtRuntime" value="false"/>
-            <property name="useActualColumnNames" value="false"/>
-        </table>
-<!--        <table tableName="outsider" enableSelectByExample="false"-->
+<!--        <table tableName="dorm_manager" enableSelectByExample="false"-->
 <!--               enableDeleteByExample="false" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
 <!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
 <!--            <property name="useActualColumnNames" value="false"/>-->
 <!--        </table>-->
-        <table tableName="service_man" enableSelectByExample="false"
+<!--        <table tableName="logistics_manager" enableSelectByExample="false"-->
+<!--               enableDeleteByExample="false" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
+        <table tableName="outsider" enableSelectByExample="false"
                enableDeleteByExample="false" enableCountByExample="false"
                enableUpdateByExample="false" selectByExampleQueryId="false">
             <property name="ignoreQualifiersAtRuntime" value="false"/>
             <property name="useActualColumnNames" value="false"/>
         </table>
+<!--        <table tableName="service_man" enableSelectByExample="false"-->
+<!--               enableDeleteByExample="false" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
 <!--        <table tableName="dorm" enableSelectByExample="false"-->
 <!--               enableDeleteByExample="false" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
 <!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
 <!--            <property name="useActualColumnNames" value="false"/>-->
 <!--        </table>-->
-<!--        <table tableName="dorm_maintenance" enableSelectByExample="false"-->
-<!--               enableDeleteByExample="false" enableCountByExample="false"-->
-<!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
-<!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
-<!--            <property name="useActualColumnNames" value="false"/>-->
-<!--        </table>-->
+        <table tableName="dorm_maintenance" enableSelectByExample="false"
+               enableDeleteByExample="false" enableCountByExample="false"
+               enableUpdateByExample="false" selectByExampleQueryId="false">
+            <property name="ignoreQualifiersAtRuntime" value="false"/>
+            <property name="useActualColumnNames" value="false"/>
+        </table>
 <!--        <table tableName="beds_manager" enableSelectByExample="false"-->
 <!--               enableDeleteByExample="false" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->

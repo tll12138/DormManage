@@ -1,8 +1,5 @@
 package com.example.dormmanage.bean;
 
-/**
- * @author 龙
- */
 public class DormMaintenance {
     private Integer id;
 
@@ -10,7 +7,7 @@ public class DormMaintenance {
 
     private String matter;
 
-    private Integer serviceManId;
+    private String state;
 
     public Integer getId() {
         return id;
@@ -36,11 +33,11 @@ public class DormMaintenance {
         this.matter = matter == null ? null : matter.trim();
     }
 
-    public Integer getServiceManId() {
-        return serviceManId;
+    public String getState() {
+        return state;
     }
 
-    public void setServiceManId(Integer serviceManId) {
-        this.serviceManId = serviceManId;
+    public void setState(String state) {
+        this.state = state == null ? null : state.trim();
     }
 }

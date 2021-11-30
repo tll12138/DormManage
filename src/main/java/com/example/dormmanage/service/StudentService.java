@@ -4,6 +4,7 @@ import com.example.dormmanage.controller.VO.StudentVo;
 import com.example.dormmanage.error.BusinessException;
 import com.example.dormmanage.model.StudentModel;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -55,4 +56,17 @@ public interface StudentService {
      * @return
      */
     List<StudentVo> selectStudent(Map<String,Object> map) throws BusinessException;
+
+    /**
+     * 新增报修
+     * @param map
+     */
+    void repair(Map<String,Object> map) throws BusinessException;
+
+    /**
+     * 修改密码
+     * @param map
+     * @throws BusinessException
+     */
+    void changePassword(Map<String,Object> map) throws BusinessException, UnsupportedEncodingException;
 }

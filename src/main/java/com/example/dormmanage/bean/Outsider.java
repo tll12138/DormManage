@@ -2,13 +2,14 @@ package com.example.dormmanage.bean;
 
 import java.util.Date;
 
-/**
- * @author 龙
- */
 public class Outsider {
     private Integer id;
 
     private String name;
+
+    private String buildingno;
+
+    private Integer dormno;
 
     private String matter;
 
@@ -30,6 +31,22 @@ public class Outsider {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getBuildingno() {
+        return buildingno;
+    }
+
+    public void setBuildingno(String buildingno) {
+        this.buildingno = buildingno == null ? null : buildingno.trim();
+    }
+
+    public Integer getDormno() {
+        return dormno;
+    }
+
+    public void setDormno(Integer dormno) {
+        this.dormno = dormno;
     }
 
     public String getMatter() {

@@ -1,18 +1,20 @@
 package com.example.dormmanage.service.impl;
 
-import com.example.dormmanage.bean.DormManager;
+import com.example.dormmanage.bean.Dorm;
+import com.example.dormmanage.bean.DormMaintenance;
 import com.example.dormmanage.bean.ServiceMan;
+import com.example.dormmanage.dao.DormMaintenanceMapper;
+import com.example.dormmanage.dao.DormMapper;
 import com.example.dormmanage.dao.ServiceManMapper;
 import com.example.dormmanage.error.BusinessException;
 import com.example.dormmanage.error.EmBusinessError;
-import com.example.dormmanage.model.ManagerModel;
+import com.example.dormmanage.model.RepairModel;
 import com.example.dormmanage.model.ServicemanModel;
 import com.example.dormmanage.service.ServiceManService;
 import io.netty.util.internal.StringUtil;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jms.artemis.ArtemisProperties;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -29,6 +31,12 @@ public class ServiceManServiceImpl implements ServiceManService {
 
     @Autowired
     ServiceManMapper serviceManMapper;
+
+    @Autowired
+    DormMaintenanceMapper dormMaintenanceMapper;
+
+    @Autowired
+    DormMapper dormMapper;
 
     @Override
     public ServicemanModel getServiceMan(String username) throws BusinessException {
@@ -87,6 +95,41 @@ public class ServiceManServiceImpl implements ServiceManService {
         serviceManMapper.deleteByPrimaryKey(id);
     }
 
+    @Override
+    public List<RepairModel> getRepairs(Map<String, Object> map) throws BusinessException {
+        Integer page = 1,size=5;
+        if (map.containsKey("limit")){
+            size=Integer.parseInt(map.get("limit").toString());
+            map.put("size", size);
+        }
+        if (map.containsKey("page")){
+            page= Integer.parseInt(map.get("page").toString());
+            map.put("page", (page-1)*size);
+        }
+        List<DormMaintenance> dormMaintenances = dormMaintenanceMapper.selectRepairs(map);
+        List<RepairModel> repairModels = convertModelFromDormMaintenance(dormMaintenances);
+        return repairModels;
+    }
+
+    @Override
+    public Integer getRepairsCount() {
+        return dormMaintenanceMapper.selectCount();
+    }
+
+    @Override
+    public void finishRepair(Map<String, Object> map) throws BusinessException {
+        if (map.containsKey("id")){
+            Integer id = (Integer) map.get("id");
+            DormMaintenance dormMaintenance = dormMaintenanceMapper.selectByPrimaryKey(id);
+            if (dormMaintenance.getState().equals("完成")){
+                throw new BusinessException(EmBusinessError.REPAIR_ALREADY_FINISH);
+            }
+            dormMaintenanceMapper.updateByIdSelective(id);
+        }else {
+            throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
+        }
+    }
+
     public ServicemanModel convertModelFromBean(ServiceMan serviceMan){
         ServicemanModel servicemanModel = new ServicemanModel();
         BeanUtils.copyProperties(serviceMan, servicemanModel);
@@ -100,5 +143,17 @@ public class ServiceManServiceImpl implements ServiceManService {
             servicemanModels.add(servicemanModel);
         }
         return servicemanModels;
+    }
+    private List<RepairModel> convertModelFromDormMaintenance(List<DormMaintenance> list){
+        List<RepairModel> repairModels = new ArrayList<>();
+        for(DormMaintenance dormMaintenance:list){
+            RepairModel repairModel = new RepairModel();
+            Dorm dorm = dormMapper.selectByPrimaryKey(dormMaintenance.getDormId());
+            BeanUtils.copyProperties(dormMaintenance, repairModel);
+            repairModel.setBuildingNo(dorm.getBuildingNo());
+            repairModel.setDormitoryNo(dorm.getDormitoryNo());
+            repairModels.add(repairModel);
+        }
+        return repairModels;
     }
 }

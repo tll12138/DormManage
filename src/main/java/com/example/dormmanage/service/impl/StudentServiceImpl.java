@@ -3,16 +3,23 @@ package com.example.dormmanage.service.impl;
 import com.example.dormmanage.bean.StudentInfo;
 import com.example.dormmanage.bean.StudentPassword;
 import com.example.dormmanage.controller.VO.StudentVo;
+import com.example.dormmanage.dao.DormMaintenanceMapper;
 import com.example.dormmanage.dao.StudentInfoMapper;
 import com.example.dormmanage.dao.StudentPasswordMapper;
 import com.example.dormmanage.error.BusinessException;
 import com.example.dormmanage.error.EmBusinessError;
+import com.example.dormmanage.model.DormModel;
 import com.example.dormmanage.model.StudentModel;
+import com.example.dormmanage.service.DormService;
 import com.example.dormmanage.service.StudentService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +36,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     StudentPasswordMapper studentPasswordMapper;
+
+    @Autowired
+    DormMaintenanceMapper dormMaintenanceMapper;
+
+    @Autowired
+    DormService dormService;
+
+    @Autowired
+    HttpServletRequest httpServletRequest;
 
     @Override
     public StudentModel getStudent(String stuId) throws BusinessException {
@@ -129,6 +145,46 @@ public class StudentServiceImpl implements StudentService {
             return studentVos;
         }
         return null;
+    }
+
+    @Override
+    public void repair(Map<String, Object> map) throws BusinessException {
+        if (map.containsKey("stuId")){
+            String stuId = (String) map.get("stuId");
+            StudentInfo studentInfo = studentInfoMapper.selectByStuId(stuId);
+            if (studentInfo==null){
+                throw new BusinessException(EmBusinessError.STUDENT_NOT_EXIST);
+            }
+        }
+        map.put("size", 1);
+        map.put("page", 1);
+        List<DormModel> dormModels = dormService.selectByMap(map);
+        if (dormModels.size()>1){
+            throw new BusinessException(EmBusinessError.DATABASE_NOT_SUCCESS);
+        }else if (dormModels.size()==0){
+            throw new BusinessException(EmBusinessError.DORM_NOT_EXIST);
+        }
+        DormModel dormModel = dormModels.get(0);
+        map.put("dormId", dormModel.getId());
+        dormMaintenanceMapper.insertSelectiveByMap(map);
+    }
+
+    @Override
+    public void changePassword(Map<String, Object> map) throws BusinessException, UnsupportedEncodingException {
+        String username = (String) httpServletRequest.getSession().getAttribute("username");
+        StudentInfo studentInfo = studentInfoMapper.selectByStuId(username);
+        StudentPassword studentPassword = studentPasswordMapper.selectByStuId(studentInfo.getId());
+        if (map.containsKey("old_password")){
+            String oldPassword = (String) map.get("old_password");
+            if (!StringUtils.equals(studentPassword.getPassword(), new String(Base64.encodeBase64(oldPassword.getBytes("UTF-8"))))){
+                throw new BusinessException(EmBusinessError.PASSWORD_NOT_TRUE);
+            }
+            if (map.containsKey("new_password")){
+                String newPassword = (String) map.get("new_password");
+                studentPassword.setPassword(new String(Base64.encodeBase64(newPassword.getBytes("UTF-8"))));
+                studentPasswordMapper.updateByPrimaryKeySelective(studentPassword);
+            }
+        }
     }
 
 

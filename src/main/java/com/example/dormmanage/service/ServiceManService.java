@@ -1,6 +1,7 @@
 package com.example.dormmanage.service;
 
 import com.example.dormmanage.error.BusinessException;
+import com.example.dormmanage.model.RepairModel;
 import com.example.dormmanage.model.ServicemanModel;
 
 import java.io.UnsupportedEncodingException;
@@ -43,5 +44,25 @@ public interface ServiceManService {
      * @param map
      */
     void delete(Map<String,Object> map) throws BusinessException;
+
+    /**
+     * 获取所有的报修请求
+     * @param map
+     * @return
+     * @throws BusinessException
+     */
+    List<RepairModel> getRepairs(Map<String,Object> map) throws BusinessException;
+
+    /**
+     * 获取所有报修的数量
+     * @return
+     */
+    Integer getRepairsCount();
+
+    /**
+     * 完成该项报修
+     * @param map
+     */
+    void finishRepair(Map<String,Object> map) throws BusinessException;
 
 }

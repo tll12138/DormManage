@@ -12,6 +12,8 @@ public enum EmBusinessError implements CommonError{
     USER_NOT_LOGIN(10002,"用户未登录"),
     FRONT_PARAMETER_NOT_LEGITIMATE(10003,"前端参数不正确"),
     USER_NOT_EXIST(10004,"用户不存在"),
+    PASSWORD_NOT_TRUE(10005,"密码不正确"),
+    CODE_NOT_COMPLETE(10006,"稍等，代码还未完成"),
 
     /**
      * 20000开头，用户错误
@@ -37,7 +39,12 @@ public enum EmBusinessError implements CommonError{
     BUILDING_IS_EXIST(40001,"该楼栋已存在"),
     BUILD_ID_NOT_EXIST(40002,"该楼栋ID不存在，请重输"),
     DORM_IS_EXIST(40003,"寝室已存在"),
-    DORM_NOT_EXIST(40004,"寝室不存在")
+    DORM_NOT_EXIST(40004,"寝室不存在"),
+
+    /**
+     * 50000开头，报修错误
+     */
+    REPAIR_ALREADY_FINISH(50001,"报修已完成")
     ;
 
     private Integer errCode;

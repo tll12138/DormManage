@@ -20,8 +20,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import sun.security.util.Password;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +59,7 @@ public class UserController extends BaseController{
     //寝室管理员用户名位数
     private final static Integer DORMMANGER_NUMBERS = 6;
 
+    //后勤管理员用户名位数
     private final static Integer LOGISTICSMANAGER_NUMBERS = 5;
 
     //维修工用户名位数
@@ -175,7 +178,31 @@ public class UserController extends BaseController{
     @RequestMapping("/index")
     @ResponseBody
     public CommonReturn index(){
-        System.out.println(permission);
         return CommonReturn.create(permission);
+    }
+
+    @RequestMapping("/repair")
+    @ResponseBody
+    public CommonReturn repair(@RequestBody Map<String,Object> map) throws BusinessException {
+        if (map==null){
+            throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
+        }
+        studentService.repair(map);
+        return CommonReturn.create(null);
+    }
+
+    @RequestMapping("/changePassword")
+    @ResponseBody
+    public CommonReturn changePassword(@RequestBody Map<String,Object> map) throws BusinessException, UnsupportedEncodingException {
+        if (map==null){
+            throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
+        }
+        String username = (String) httpServletRequest.getSession().getAttribute("username");
+        if (username.length()==STUDENT_NUMBERS){
+            studentService.changePassword(map);
+        }else {
+            throw new BusinessException(EmBusinessError.CODE_NOT_COMPLETE);
+        }
+        return CommonReturn.create(null);
     }
 }

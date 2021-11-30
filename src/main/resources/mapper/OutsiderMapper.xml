@@ -4,12 +4,14 @@
   <resultMap id="BaseResultMap" type="com.example.dormmanage.bean.Outsider">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="buildingno" jdbcType="VARCHAR" property="buildingno" />
+    <result column="dormno" jdbcType="INTEGER" property="dormno" />
     <result column="matter" jdbcType="VARCHAR" property="matter" />
     <result column="accesstime" jdbcType="TIMESTAMP" property="accesstime" />
     <result column="leavetime" jdbcType="TIMESTAMP" property="leavetime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, matter, accesstime, leavetime
+    id, name, buildingno, dormno, matter, accesstime, leavetime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,10 +24,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.dormmanage.bean.Outsider">
-    insert into outsider (id, name, matter, 
-      accesstime, leavetime)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{matter,jdbcType=VARCHAR}, 
-      #{accesstime,jdbcType=TIMESTAMP}, #{leavetime,jdbcType=TIMESTAMP})
+    insert into outsider (id, name, buildingno, 
+      dormno, matter, accesstime, 
+      leavetime)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{buildingno,jdbcType=VARCHAR}, 
+      #{dormno,jdbcType=INTEGER}, #{matter,jdbcType=VARCHAR}, #{accesstime,jdbcType=TIMESTAMP}, 
+      #{leavetime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.dormmanage.bean.Outsider">
     insert into outsider
@@ -35,6 +39,12 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="buildingno != null">
+        buildingno,
+      </if>
+      <if test="dormno != null">
+        dormno,
       </if>
       <if test="matter != null">
         matter,
@@ -53,6 +63,12 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="buildingno != null">
+        #{buildingno,jdbcType=VARCHAR},
+      </if>
+      <if test="dormno != null">
+        #{dormno,jdbcType=INTEGER},
+      </if>
       <if test="matter != null">
         #{matter,jdbcType=VARCHAR},
       </if>
@@ -70,6 +86,12 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="buildingno != null">
+        buildingno = #{buildingno,jdbcType=VARCHAR},
+      </if>
+      <if test="dormno != null">
+        dormno = #{dormno,jdbcType=INTEGER},
+      </if>
       <if test="matter != null">
         matter = #{matter,jdbcType=VARCHAR},
       </if>
@@ -85,6 +107,8 @@
   <update id="updateByPrimaryKey" parameterType="com.example.dormmanage.bean.Outsider">
     update outsider
     set name = #{name,jdbcType=VARCHAR},
+      buildingno = #{buildingno,jdbcType=VARCHAR},
+      dormno = #{dormno,jdbcType=INTEGER},
       matter = #{matter,jdbcType=VARCHAR},
       accesstime = #{accesstime,jdbcType=TIMESTAMP},
       leavetime = #{leavetime,jdbcType=TIMESTAMP}
