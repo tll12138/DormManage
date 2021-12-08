@@ -32,7 +32,7 @@ public class ManagerController extends BaseController{
     @RequestMapping("/managers")
     @ResponseBody
     public CommonReturn getManagers(@RequestParam Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE);
         }
         List<ManagerModel> managers = managerService.getManagers(map);
@@ -42,7 +42,7 @@ public class ManagerController extends BaseController{
     @RequestMapping("/add")
     @ResponseBody
     public CommonReturn addManager(@RequestBody Map<String,Object> map) throws Exception {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE);
         }
         managerService.addManagers(map);
@@ -52,7 +52,7 @@ public class ManagerController extends BaseController{
     @RequestMapping("delete")
     @ResponseBody
     public CommonReturn deleteManager(@RequestBody Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE);
         }
         managerService.deleteManager(map);
@@ -62,10 +62,20 @@ public class ManagerController extends BaseController{
     @RequestMapping("/select")
     @ResponseBody
     public CommonReturn selectManagers(@RequestParam Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE);
         }
         List<ManagerModel> managers = managerService.getManagers(map);
         return CommonReturn.create(managers,managers.size());
+    }
+
+    @RequestMapping("/outsider")
+    @ResponseBody
+    public CommonReturn addOutsider(@RequestBody Map<String,Object> map) throws BusinessException {
+        if (map==null||map.size()==0){
+            throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE);
+        }
+        managerService.addOutsider(map);
+        return CommonReturn.create(null);
     }
 }

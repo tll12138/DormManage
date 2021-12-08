@@ -27,4 +27,5 @@ public interface LogisticsManagerMapper {
     int updateByPrimaryKeySelective(LogisticsManager record);
 
     int updateByPrimaryKey(LogisticsManager record);
+
 }

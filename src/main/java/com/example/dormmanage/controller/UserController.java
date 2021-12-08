@@ -8,10 +8,7 @@ import com.example.dormmanage.model.LogisticsManagerModel;
 import com.example.dormmanage.model.ServicemanModel;
 import com.example.dormmanage.model.StudentModel;
 import com.example.dormmanage.response.CommonReturn;
-import com.example.dormmanage.service.DormManagerService;
-import com.example.dormmanage.service.LogisticsManagerService;
-import com.example.dormmanage.service.ServiceManService;
-import com.example.dormmanage.service.StudentService;
+import com.example.dormmanage.service.*;
 import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -20,10 +17,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import sun.security.util.Password;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +42,12 @@ public class UserController extends BaseController{
     DormManagerService dormManagerService;
 
     @Autowired
+    BulidManageService bulidManageService;
+
+    @Autowired
+    DormService dormService;
+
+    @Autowired
     LogisticsManagerService logisticsManagerService;
 
     @Autowired
@@ -54,16 +57,16 @@ public class UserController extends BaseController{
     HttpServletRequest httpServletRequest;
 
     //学生学号位数
-    private final static Integer STUDENT_NUMBERS = 10;
+    public final static Integer STUDENT_NUMBERS = 10;
 
     //寝室管理员用户名位数
-    private final static Integer DORMMANGER_NUMBERS = 6;
+    public final static Integer DORMMANGER_NUMBERS = 6;
 
     //后勤管理员用户名位数
-    private final static Integer LOGISTICSMANAGER_NUMBERS = 5;
+    public final static Integer LOGISTICSMANAGER_NUMBERS = 5;
 
     //维修工用户名位数
-    private final static Integer SERVICEMAN_NUMBERS = 4;
+    public final static Integer SERVICEMAN_NUMBERS = 4;
 
     Integer permission = -1;
 
@@ -112,14 +115,14 @@ public class UserController extends BaseController{
         }
         httpServletRequest.getSession().setAttribute("username", username);
         httpServletRequest.getSession().setAttribute("IS_LOGIN", true);
-        return CommonReturn.create(permission);
+        return CommonReturn.create(null);
     }
 
     @RequestMapping(value = "/users")
     @ResponseBody
     public CommonReturn initUsers(@RequestParam Map<String,Object> map) throws Exception {
 
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
 
@@ -138,7 +141,7 @@ public class UserController extends BaseController{
     @ResponseBody
     public CommonReturn add(@RequestBody Map<String,Object> map) throws BusinessException {
 
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         studentService.addStudent(map);
@@ -148,7 +151,7 @@ public class UserController extends BaseController{
     @RequestMapping("/delete")
     @ResponseBody
     public CommonReturn delete(@RequestBody Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         studentService.deleteStuByStuId(map);
@@ -158,7 +161,7 @@ public class UserController extends BaseController{
     @RequestMapping("/edit")
     @ResponseBody
     public CommonReturn edit(@RequestBody Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         studentService.editStudent(map);
@@ -168,7 +171,7 @@ public class UserController extends BaseController{
     @RequestMapping("/select")
     @ResponseBody
     public CommonReturn select(@RequestParam Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         List<StudentVo> studentVos = studentService.selectStudent(map);
@@ -177,14 +180,18 @@ public class UserController extends BaseController{
 
     @RequestMapping("/index")
     @ResponseBody
-    public CommonReturn index(){
-        return CommonReturn.create(permission);
+    public CommonReturn index() throws BusinessException {
+        String username = (String) httpServletRequest.getSession().getAttribute("username");
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("username",username);
+        map.put("permission",permission);
+        return CommonReturn.create(map);
     }
 
     @RequestMapping("/repair")
     @ResponseBody
     public CommonReturn repair(@RequestBody Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         studentService.repair(map);
@@ -194,14 +201,18 @@ public class UserController extends BaseController{
     @RequestMapping("/changePassword")
     @ResponseBody
     public CommonReturn changePassword(@RequestBody Map<String,Object> map) throws BusinessException, UnsupportedEncodingException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         String username = (String) httpServletRequest.getSession().getAttribute("username");
         if (username.length()==STUDENT_NUMBERS){
             studentService.changePassword(map);
-        }else {
-            throw new BusinessException(EmBusinessError.CODE_NOT_COMPLETE);
+        }else if (username.length()==LOGISTICSMANAGER_NUMBERS){
+            logisticsManagerService.changePassword(map);
+        }else if (username.length()==DORMMANGER_NUMBERS){
+            dormManagerService.changePassword(map);
+        }else if (username.length()==SERVICEMAN_NUMBERS){
+            serviceManService.changePassword(map);
         }
         return CommonReturn.create(null);
     }

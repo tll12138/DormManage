@@ -154,31 +154,32 @@
                 $(window).on("resize", function () {
                     layer.full(index);
                 });
-            } else {
-                if (obj.event === 'delete') {  // 监听删除操作
-                    var seq = {};
-                    seq.stuId = data.stuId;
-                    $.ajax({
-                        dataType:"json",
-                        contentType: "application/json;charset=utf-8",
-                        url: "/user/delete",
-                        data: JSON.stringify(seq),
-                        xhrFields: {withCredentials: true},
-                        success:function (data){
-                            if (data.status == "success") {
-                                alert("删除成功");
-                                layer.alert(JSON.stringify(data));
-                            } else {
-                                alert("创建失败，原因为：" + data.data.errMsg);
-                            }
-                        },
-                        error: function (data) {
-                            alert("创建失败，原因为：" + data.responseText);
-                        }
-                    })
-                    return false;
-                }
             }
+            // else {
+            //     if (obj.event === 'delete') {  // 监听删除操作
+            //         var seq = {};
+            //         seq.stuId = data.stuId;
+            //         $.ajax({
+            //             dataType:"json",
+            //             contentType: "application/json;charset=utf-8",
+            //             url: "/user/delete",
+            //             data: JSON.stringify(seq),
+            //             xhrFields: {withCredentials: true},
+            //             success:function (data){
+            //                 if (data.status == "success") {
+            //                     alert("删除成功");
+            //                     layer.alert(JSON.stringify(data));
+            //                 } else {
+            //                     alert("创建失败，原因为：" + data.data.errMsg);
+            //                 }
+            //             },
+            //             error: function (data) {
+            //                 alert("创建失败，原因为：" + data.responseText);
+            //             }
+            //         })
+            //         return false;
+            //     }
+            // }
         });
 
         //监听表格复选框选择
@@ -213,6 +214,9 @@
                 layer.confirm('真的删除行么', function (index) {
                     var req={};
                     req.stuId=data.stuId;
+                    req.buildingNo = data.buildingNo;
+                    req.dormitoryNo = data.dormitoryNo;
+                    req.bedNo = data.bedNo;
                     $.ajax({
                         dataType:"json",
                         type:"delete",

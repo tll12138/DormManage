@@ -49,4 +49,8 @@ public interface BulidManageService {
      * @return
      */
     List<BuildModel> selectBuilds(Map<String,Object> map);
+    /**
+     * 按buildingNo返回楼栋
+     */
+    void selectBuild(String buildingNo) throws BusinessException;
 }

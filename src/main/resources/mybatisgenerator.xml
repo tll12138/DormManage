@@ -85,12 +85,12 @@
 <!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
 <!--            <property name="useActualColumnNames" value="false"/>-->
 <!--        </table>-->
-        <table tableName="dorm_maintenance" enableSelectByExample="false"
-               enableDeleteByExample="false" enableCountByExample="false"
-               enableUpdateByExample="false" selectByExampleQueryId="false">
-            <property name="ignoreQualifiersAtRuntime" value="false"/>
-            <property name="useActualColumnNames" value="false"/>
-        </table>
+<!--        <table tableName="dorm_maintenance" enableSelectByExample="false"-->
+<!--               enableDeleteByExample="false" enableCountByExample="false"-->
+<!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->
+<!--            <property name="ignoreQualifiersAtRuntime" value="false"/>-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--        </table>-->
 <!--        <table tableName="beds_manager" enableSelectByExample="false"-->
 <!--               enableDeleteByExample="false" enableCountByExample="false"-->
 <!--               enableUpdateByExample="false" selectByExampleQueryId="false">-->

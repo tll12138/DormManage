@@ -4,6 +4,7 @@ import com.example.dormmanage.bean.DormManager;
 import com.example.dormmanage.bean.LogisticsManager;
 import com.example.dormmanage.dao.DormManagerMapper;
 import com.example.dormmanage.dao.LogisticsManagerMapper;
+import com.example.dormmanage.dao.OutsiderMapper;
 import com.example.dormmanage.error.BusinessException;
 import com.example.dormmanage.error.EmBusinessError;
 import com.example.dormmanage.model.ManagerModel;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Autowired
     LogisticsManagerMapper logisticsManagerMapper;
+
+    @Autowired
+    OutsiderMapper outsiderMapper;
 
     private static final String DORM_MANAGER = "寝室管理员";
     private static final String LOGISTICS_MANAGER = "后勤管理员";
@@ -139,6 +144,11 @@ public class ManagerServiceImpl implements ManagerService {
         }else {
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
+    }
+
+    @Override
+    public void addOutsider(Map<String, Object> map) throws BusinessException {
+        outsiderMapper.insertSelectiveByMap(map);
     }
 
     private List<ManagerModel> convertModelFromDormManager(List<DormManager> list){

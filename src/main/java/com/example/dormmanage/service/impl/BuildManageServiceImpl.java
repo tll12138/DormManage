@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.example.dormmanage.dao.BuildManageMapper;
 import com.example.dormmanage.dao.DormManagerMapper;
 
-import java.rmi.MarshalledObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -122,6 +121,14 @@ public class BuildManageServiceImpl implements BulidManageService {
             return buildModels;
         }
         return null;
+    }
+
+    @Override
+    public void selectBuild(String buildingNo) throws BusinessException {
+        BuildManage buildManage = buildManageMapper.selectByBuildNo(buildingNo);
+        if (buildManage==null){
+            throw new BusinessException(EmBusinessError.BUILDING_NOT_EXIST);
+        }
     }
 
     private List<BuildModel> convertModelFromBean(List<BuildManage> list){

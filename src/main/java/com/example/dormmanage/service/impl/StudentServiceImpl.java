@@ -8,8 +8,10 @@ import com.example.dormmanage.dao.StudentInfoMapper;
 import com.example.dormmanage.dao.StudentPasswordMapper;
 import com.example.dormmanage.error.BusinessException;
 import com.example.dormmanage.error.EmBusinessError;
+import com.example.dormmanage.model.BuildModel;
 import com.example.dormmanage.model.DormModel;
 import com.example.dormmanage.model.StudentModel;
+import com.example.dormmanage.service.BulidManageService;
 import com.example.dormmanage.service.DormService;
 import com.example.dormmanage.service.StudentService;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +19,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -46,6 +49,11 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     HttpServletRequest httpServletRequest;
 
+    @Autowired
+    BulidManageService bulidManageService;
+
+
+
     @Override
     public StudentModel getStudent(String stuId) throws BusinessException {
         StudentInfo studentInfo = studentInfoMapper.selectByStuId(stuId);
@@ -58,28 +66,46 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void editStudent(Map<String,Object> map) throws BusinessException {
         if (map==null){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
+        String buildingNo = map.get("buildingNo").toString();
+        Integer dormitoryNo = Integer.parseInt(map.get("dormitoryNo").toString());
+        String bedNo = map.get("bedNo").toString();
+        bulidManageService.selectBuild(buildingNo);
+        dormService.getDorm(buildingNo, dormitoryNo);
+        dormService.getBeds(buildingNo, dormitoryNo, bedNo);
         studentInfoMapper.updateSelective(map);
+
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void addStudent(Map<String,Object> map) throws BusinessException {
         if (map==null){
             throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE);
         }
         String stuId = map.get("stuId").toString();
+        String name = map.get("name").toString();
+        String buildingNo = map.get("buildingNo").toString();
+        Integer dormitoryNo = Integer.parseInt(map.get("dormitoryNo").toString());
+        String bedNo = map.get("bedNo").toString();
+        bulidManageService.selectBuild(buildingNo);
+        dormService.getDorm(buildingNo, dormitoryNo);
+        dormService.getBeds(buildingNo, dormitoryNo, bedNo);
         StudentInfo studentInfo = studentInfoMapper.selectByStuId(stuId);
         if (studentInfo==null){
             studentInfoMapper.insertSelectiveByMap(map);
             StudentPassword studentPassword = new StudentPassword();
             studentPassword.setStuInfoId(studentInfoMapper.selectByStuId(stuId).getId());
             studentPasswordMapper.insertSelective(studentPassword);
+            dormService.addStu(name,buildingNo,dormitoryNo,bedNo);
         }else {
             throw new BusinessException(EmBusinessError.STUDENT_EXIST);
         }
+
     }
 
     @Override
@@ -108,6 +134,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteStuByStuId(Map<String,Object> map) throws BusinessException {
         if (map==null){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
@@ -120,6 +147,12 @@ public class StudentServiceImpl implements StudentService {
         if (studentInfo==null){
             throw new BusinessException(EmBusinessError.STUDENT_NOT_EXIST);
         }
+        String buildingNo = map.get("buildingNo").toString();
+        Integer dormitoryNo = Integer.parseInt(map.get("dormitoryNo").toString());
+        String bedNo = map.get("bedNo").toString();
+        bulidManageService.selectBuild(buildingNo);
+        dormService.getDorm(buildingNo, dormitoryNo);
+        dormService.deleteStu(buildingNo, dormitoryNo, bedNo);
         studentInfoMapper.deleteByStuId(studentInfo.getStuId());
         studentPasswordMapper.deleteByStuInfoId(studentInfo.getId());
     }
@@ -148,6 +181,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void repair(Map<String, Object> map) throws BusinessException {
         if (map.containsKey("stuId")){
             String stuId = (String) map.get("stuId");
@@ -170,6 +204,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void changePassword(Map<String, Object> map) throws BusinessException, UnsupportedEncodingException {
         String username = (String) httpServletRequest.getSession().getAttribute("username");
         StudentInfo studentInfo = studentInfoMapper.selectByStuId(username);

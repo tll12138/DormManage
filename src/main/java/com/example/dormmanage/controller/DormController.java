@@ -32,7 +32,7 @@ public class DormController extends BaseController{
     @RequestMapping("/dorms")
     @ResponseBody
     public CommonReturn getDorms(@RequestParam Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         List<DormModel> dorms = dormService.getDorms(map);
@@ -42,7 +42,7 @@ public class DormController extends BaseController{
     @RequestMapping("/add")
     @ResponseBody
     public CommonReturn add(@RequestBody Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         dormService.addDorm(map);
@@ -52,7 +52,7 @@ public class DormController extends BaseController{
     @RequestMapping("/delete")
     @ResponseBody
     public CommonReturn delete(@RequestBody Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         dormService.delete(map);
@@ -62,7 +62,7 @@ public class DormController extends BaseController{
     @RequestMapping("/edit")
     @ResponseBody
     public CommonReturn edit(@RequestBody Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         dormService.editBedsForDorm(map);
@@ -72,7 +72,7 @@ public class DormController extends BaseController{
     @RequestMapping("/select")
     @ResponseBody
     public CommonReturn select(@RequestParam Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         List<DormModel> dormModels = dormService.selectByMap(map);
@@ -82,7 +82,7 @@ public class DormController extends BaseController{
     @RequestMapping("/beds")
     @ResponseBody
     public CommonReturn getBeds(@RequestParam Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         BedsModel beds = dormService.getBeds(map);

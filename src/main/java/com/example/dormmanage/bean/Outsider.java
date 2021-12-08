@@ -7,15 +7,15 @@ public class Outsider {
 
     private String name;
 
-    private String buildingno;
+    private String buildingNo;
 
-    private Integer dormno;
+    private Integer dormNo;
 
     private String matter;
 
-    private Date accesstime;
+    private Date accessTime;
 
-    private Date leavetime;
+    private String handler;
 
     public Integer getId() {
         return id;
@@ -33,20 +33,20 @@ public class Outsider {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getBuildingno() {
-        return buildingno;
+    public String getBuildingNo() {
+        return buildingNo;
     }
 
-    public void setBuildingno(String buildingno) {
-        this.buildingno = buildingno == null ? null : buildingno.trim();
+    public void setBuildingNo(String buildingNo) {
+        this.buildingNo = buildingNo == null ? null : buildingNo.trim();
     }
 
-    public Integer getDormno() {
-        return dormno;
+    public Integer getDormNo() {
+        return dormNo;
     }
 
-    public void setDormno(Integer dormno) {
-        this.dormno = dormno;
+    public void setDormNo(Integer dormNo) {
+        this.dormNo = dormNo;
     }
 
     public String getMatter() {
@@ -57,19 +57,19 @@ public class Outsider {
         this.matter = matter == null ? null : matter.trim();
     }
 
-    public Date getAccesstime() {
-        return accesstime;
+    public Date getAccessTime() {
+        return accessTime;
     }
 
-    public void setAccesstime(Date accesstime) {
-        this.accesstime = accesstime;
+    public void setAccessTime(Date accessTime) {
+        this.accessTime = accessTime;
     }
 
-    public Date getLeavetime() {
-        return leavetime;
+    public String getHandler() {
+        return handler;
     }
 
-    public void setLeavetime(Date leavetime) {
-        this.leavetime = leavetime;
+    public void setHandler(String handler) {
+        this.handler = handler == null ? null : handler.trim();
     }
 }

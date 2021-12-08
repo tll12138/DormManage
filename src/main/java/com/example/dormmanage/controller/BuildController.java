@@ -32,7 +32,7 @@ public class BuildController extends BaseController{
     @RequestMapping("/builds")
     @ResponseBody
     public CommonReturn initBuilds(@RequestParam Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         List<BuildModel> builds = bulidManageService.getBuilds(map);
@@ -43,7 +43,7 @@ public class BuildController extends BaseController{
     @RequestMapping("/add")
     @ResponseBody
     public CommonReturn add(@RequestBody Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         bulidManageService.addBuild(map);
@@ -63,7 +63,7 @@ public class BuildController extends BaseController{
     @RequestMapping("/edit")
     @ResponseBody
     public CommonReturn edit(@RequestBody Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         bulidManageService.editBuild(map);
@@ -73,7 +73,7 @@ public class BuildController extends BaseController{
     @RequestMapping("/select")
     @ResponseBody
     public CommonReturn select(@RequestParam Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.FRONT_PARAMETER_NOT_LEGITIMATE);
         }
         List<BuildModel> buildModels = bulidManageService.selectBuilds(map);

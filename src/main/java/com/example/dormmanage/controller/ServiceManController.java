@@ -33,7 +33,7 @@ public class ServiceManController {
     @RequestMapping("/all")
     @ResponseBody
     public CommonReturn getAll(@RequestParam Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE);
         }
         List<ServicemanModel> servicemanModels = service.getAll(map);
@@ -60,7 +60,7 @@ public class ServiceManController {
     @RequestMapping("/select")
     @ResponseBody
     public CommonReturn selectServiceMan(@RequestParam Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE);
         }
         List<ServicemanModel> servicemanModels = service.getAll(map);
@@ -69,7 +69,7 @@ public class ServiceManController {
     @RequestMapping("/repairs")
     @ResponseBody
     public CommonReturn getRepairs(@RequestParam Map<String,Object> map) throws BusinessException {
-        if (map==null){
+        if (map==null||map.size()==0){
             throw new BusinessException(EmBusinessError.PARAMETER_NOT_LEGITIMATE);
         }
         List<RepairModel> repairs = service.getRepairs(map);

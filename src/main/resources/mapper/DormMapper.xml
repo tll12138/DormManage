@@ -16,6 +16,13 @@
         from dorm
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="selectByDormNoAndBuildNo" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dorm
+        where dormitory_no = #{dormNo,jdbcType=INTEGER}
+        and building_no = #{buildNo,jdbcType=VARCHAR}
+    </select>
     <select id="selectByMapSelective" parameterType="map" resultMap="BaseResultMap">
         select id,building_no,dormitory_no
         from dorm

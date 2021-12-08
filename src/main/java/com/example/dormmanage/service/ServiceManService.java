@@ -65,4 +65,12 @@ public interface ServiceManService {
      */
     void finishRepair(Map<String,Object> map) throws BusinessException;
 
+    /**
+     * 修改密码
+     * @param map
+     * @throws BusinessException
+     * @throws UnsupportedEncodingException
+     */
+    void changePassword(Map<String,Object> map) throws BusinessException, UnsupportedEncodingException;
+
 }

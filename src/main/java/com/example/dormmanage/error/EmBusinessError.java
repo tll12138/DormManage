@@ -40,6 +40,9 @@ public enum EmBusinessError implements CommonError{
     BUILD_ID_NOT_EXIST(40002,"该楼栋ID不存在，请重输"),
     DORM_IS_EXIST(40003,"寝室已存在"),
     DORM_NOT_EXIST(40004,"寝室不存在"),
+    BUILDING_NOT_EXIST(40005,"该楼栋不存在"),
+    BED_IS_HAVE(40006,"该床位已有人"),
+    BED_NOT_HAVE(40007,"该床位没有人"),
 
     /**
      * 50000开头，报修错误

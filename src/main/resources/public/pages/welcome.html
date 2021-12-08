@@ -37,10 +37,10 @@
                                                 <div class="panel-body">
                                                     <div class="panel-title">
                                                         <span class="label pull-right layui-bg-blue">实时</span>
-                                                        <h5>用户统计</h5>
+                                                        <h5>学生统计</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">****</h1>
+                                                        <h1 class="no-margins" id="user_count">****</h1>
                                                         <small>当前分类总记录数</small>
                                                     </div>
                                                 </div>
@@ -54,7 +54,7 @@
                                                         <h5>楼栋统计</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">****</h1>
+                                                        <h1 class="no-margins" id="build_count">****</h1>
                                                         <small>当前分类总记录数</small>
                                                     </div>
                                                 </div>
@@ -68,7 +68,7 @@
                                                         <h5>宿舍统计</h5>
                                                     </div>
                                                     <div class="panel-content">
-                                                        <h1 class="no-margins">****</h1>
+                                                        <h1 class="no-margins" id="dorm_count">****</h1>
                                                         <small>当前分类总记录数</small>
                                                     </div>
                                                 </div>
@@ -357,6 +357,19 @@
         window.onresize = function () {
             echartsRecords.resize();
         }
+
+        $.ajax({
+            url:"/page/welcome",
+            success:function (data){
+                var studentCount = data.data.studentCount;
+                var buildCount = data.data.buildCount;
+                var dormCount = data.data.dormCount;
+
+                document.getElementById("user_count").innerHTML = studentCount;
+                document.getElementById("dorm_count").innerHTML = dormCount;
+                document.getElementById("build_count").innerHTML = buildCount;
+            }
+        })
 
     });
 </script>

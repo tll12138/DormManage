@@ -38,6 +38,11 @@ public interface ManagerService {
      */
     void deleteManager(Map<String,Object> map) throws BusinessException;
 
-//    List<ManagerModel> getManager(Map<String,Object> map);
+    /**
+     * 根据传来的数据登记外来人员
+     * @param map
+     * @throws BusinessException
+     */
+    void addOutsider(Map<String,Object> map) throws BusinessException;
 
 }

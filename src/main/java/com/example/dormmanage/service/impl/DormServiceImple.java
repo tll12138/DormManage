@@ -9,6 +9,8 @@ import com.example.dormmanage.error.EmBusinessError;
 import com.example.dormmanage.model.BedsModel;
 import com.example.dormmanage.model.DormModel;
 import com.example.dormmanage.service.DormService;
+import io.netty.util.internal.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -119,6 +121,85 @@ public class DormServiceImple implements DormService {
         BedsManager bedsManager = bedsManagerMapper.selectByPrimaryKey(dorm.getId());
         BedsModel bedsModel = convertModelFromBean(bedsManager);
         return bedsModel;
+    }
+
+    @Override
+    public void getDorm(String buildNo,Integer dormitoryNo) throws BusinessException {
+        Dorm dorm = dormMapper.selectByDormNoAndBuildNo(buildNo,dormitoryNo);
+        if (dorm==null){
+            throw new BusinessException(EmBusinessError.DORM_NOT_EXIST);
+        }
+    }
+
+    @Override
+    public void getBeds(String buildNo, Integer dormitoryNo, String bedNo) throws BusinessException {
+        Dorm dorm = dormMapper.selectByDormNoAndBuildNo(buildNo,dormitoryNo);
+        BedsManager bedsManager = bedsManagerMapper.selectByPrimaryKey(dorm.getId());
+        if ("A".equals(bedNo)){
+            if (!StringUtil.isNullOrEmpty(bedsManager.getBeda())) {
+                throw new BusinessException(EmBusinessError.BED_IS_HAVE);
+            }
+        }else if ("B".equals(bedNo)){
+            if (!StringUtil.isNullOrEmpty(bedsManager.getBedb())) {
+                throw new BusinessException(EmBusinessError.BED_IS_HAVE);
+            }
+        }else if ("C".equals(bedNo)){
+            if (!StringUtil.isNullOrEmpty(bedsManager.getBedc())) {
+                throw new BusinessException(EmBusinessError.BED_IS_HAVE);
+            }
+        }else if ("D".equals(bedNo)){
+            if (!StringUtil.isNullOrEmpty(bedsManager.getBedd())) {
+                throw new BusinessException(EmBusinessError.BED_IS_HAVE);
+            }
+        }
+    }
+
+    @Override
+    public void addStu(String name, String buildNo, Integer dormitoryNo, String bedNo) throws BusinessException {
+        Dorm dorm = dormMapper.selectByDormNoAndBuildNo(buildNo,dormitoryNo);
+        BedsManager bedsManager = bedsManagerMapper.selectByPrimaryKey(dorm.getId());
+        if ("A".equals(bedNo)){
+            bedsManager.setBeda(name);
+        }else if ("B".equals(bedNo)){
+            bedsManager.setBedb(name);
+        }else if ("C".equals(bedNo)){
+            bedsManager.setBedc(name);
+        }else if ("D".equals(bedNo)){
+            bedsManager.setBedd(name);
+        }
+        bedsManagerMapper.updateByPrimaryKey(bedsManager);
+    }
+
+    @Override
+    public void deleteStu(String buildNo, Integer dormitoryNo, String bedNo) throws BusinessException {
+        Dorm dorm = dormMapper.selectByDormNoAndBuildNo(buildNo,dormitoryNo);
+        BedsManager bedsManager = bedsManagerMapper.selectByPrimaryKey(dorm.getId());
+        if ("A".equals(bedNo)){
+            if (StringUtils.isNotEmpty(bedsManager.getBeda())) {
+                bedsManager.setBeda("");
+            }else {
+                throw new BusinessException(EmBusinessError.BED_NOT_HAVE);
+            }
+        }else if ("B".equals(bedNo)){
+            if (StringUtils.isNotEmpty(bedsManager.getBedb())) {
+                bedsManager.setBedb("");
+            }else {
+                throw new BusinessException(EmBusinessError.BED_NOT_HAVE);
+            }
+        }else if ("C".equals(bedNo)){
+            if (StringUtils.isNotEmpty(bedsManager.getBedc())) {
+                bedsManager.setBedc("");
+            }else {
+                throw new BusinessException(EmBusinessError.BED_NOT_HAVE);
+            }
+        }else if ("D".equals(bedNo)){
+            if (StringUtils.isNotEmpty(bedsManager.getBedd())) {
+                bedsManager.setBedd("");
+            }else {
+                throw new BusinessException(EmBusinessError.BED_NOT_HAVE);
+            }
+        }
+        bedsManagerMapper.updateByPrimaryKey(bedsManager);
     }
 
     private List<DormModel> convertModelFromBean(List<Dorm> list){

@@ -4,14 +4,14 @@
   <resultMap id="BaseResultMap" type="com.example.dormmanage.bean.Outsider">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="buildingno" jdbcType="VARCHAR" property="buildingno" />
-    <result column="dormno" jdbcType="INTEGER" property="dormno" />
+    <result column="building_no" jdbcType="VARCHAR" property="buildingNo" />
+    <result column="dorm_no" jdbcType="INTEGER" property="dormNo" />
     <result column="matter" jdbcType="VARCHAR" property="matter" />
-    <result column="accesstime" jdbcType="TIMESTAMP" property="accesstime" />
-    <result column="leavetime" jdbcType="TIMESTAMP" property="leavetime" />
+    <result column="access_time" jdbcType="DATE" property="accessTime" />
+    <result column="handler" jdbcType="VARCHAR" property="handler" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, buildingno, dormno, matter, accesstime, leavetime
+    id, name, building_no, dorm_no, matter, access_time, handler
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -24,12 +24,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.dormmanage.bean.Outsider">
-    insert into outsider (id, name, buildingno, 
-      dormno, matter, accesstime, 
-      leavetime)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{buildingno,jdbcType=VARCHAR}, 
-      #{dormno,jdbcType=INTEGER}, #{matter,jdbcType=VARCHAR}, #{accesstime,jdbcType=TIMESTAMP}, 
-      #{leavetime,jdbcType=TIMESTAMP})
+    insert into outsider (id, name, building_no, 
+      dorm_no, matter, access_time, 
+      handler)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{buildingNo,jdbcType=VARCHAR}, 
+      #{dormNo,jdbcType=INTEGER}, #{matter,jdbcType=VARCHAR}, #{accessTime,jdbcType=DATE}, 
+      #{handler,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.dormmanage.bean.Outsider">
     insert into outsider
@@ -40,20 +40,20 @@
       <if test="name != null">
         name,
       </if>
-      <if test="buildingno != null">
-        buildingno,
+      <if test="buildingNo != null">
+        building_no,
       </if>
-      <if test="dormno != null">
-        dormno,
+      <if test="dormNo != null">
+        dorm_no,
       </if>
       <if test="matter != null">
         matter,
       </if>
-      <if test="accesstime != null">
-        accesstime,
+      <if test="accessTime != null">
+        access_time,
       </if>
-      <if test="leavetime != null">
-        leavetime,
+      <if test="handler != null">
+        handler,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -63,20 +63,69 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="buildingno != null">
-        #{buildingno,jdbcType=VARCHAR},
+      <if test="buildingNo != null">
+        #{buildingNo,jdbcType=VARCHAR},
       </if>
-      <if test="dormno != null">
-        #{dormno,jdbcType=INTEGER},
+      <if test="dormNo != null">
+        #{dormNo,jdbcType=INTEGER},
       </if>
       <if test="matter != null">
         #{matter,jdbcType=VARCHAR},
       </if>
-      <if test="accesstime != null">
-        #{accesstime,jdbcType=TIMESTAMP},
+      <if test="accessTime != null">
+        #{accessTime,jdbcType=DATE},
       </if>
-      <if test="leavetime != null">
-        #{leavetime,jdbcType=TIMESTAMP},
+      <if test="handler != null">
+        #{handler,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelectiveByMap" parameterType="map" keyProperty="id" useGeneratedKeys="true">
+    insert into outsider
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="buildingNo != null">
+        building_no,
+      </if>
+      <if test="dormNo != null">
+        dorm_no,
+      </if>
+      <if test="matter != null">
+        matter,
+      </if>
+      <if test="accessTime != null">
+        access_time,
+      </if>
+      <if test="handler != null">
+        handler,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="buildingNo != null">
+        #{buildingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="dormNo != null">
+        #{dormNo,jdbcType=INTEGER},
+      </if>
+      <if test="matter != null">
+        #{matter,jdbcType=VARCHAR},
+      </if>
+      <if test="accessTime != null">
+        #{accessTime,jdbcType=DATE},
+      </if>
+      <if test="handler != null">
+        #{handler,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -86,20 +135,20 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="buildingno != null">
-        buildingno = #{buildingno,jdbcType=VARCHAR},
+      <if test="buildingNo != null">
+        building_no = #{buildingNo,jdbcType=VARCHAR},
       </if>
-      <if test="dormno != null">
-        dormno = #{dormno,jdbcType=INTEGER},
+      <if test="dormNo != null">
+        dorm_no = #{dormNo,jdbcType=INTEGER},
       </if>
       <if test="matter != null">
         matter = #{matter,jdbcType=VARCHAR},
       </if>
-      <if test="accesstime != null">
-        accesstime = #{accesstime,jdbcType=TIMESTAMP},
+      <if test="accessTime != null">
+        access_time = #{accessTime,jdbcType=DATE},
       </if>
-      <if test="leavetime != null">
-        leavetime = #{leavetime,jdbcType=TIMESTAMP},
+      <if test="handler != null">
+        handler = #{handler,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -107,11 +156,11 @@
   <update id="updateByPrimaryKey" parameterType="com.example.dormmanage.bean.Outsider">
     update outsider
     set name = #{name,jdbcType=VARCHAR},
-      buildingno = #{buildingno,jdbcType=VARCHAR},
-      dormno = #{dormno,jdbcType=INTEGER},
+      building_no = #{buildingNo,jdbcType=VARCHAR},
+      dorm_no = #{dormNo,jdbcType=INTEGER},
       matter = #{matter,jdbcType=VARCHAR},
-      accesstime = #{accesstime,jdbcType=TIMESTAMP},
-      leavetime = #{leavetime,jdbcType=TIMESTAMP}
+      access_time = #{accessTime,jdbcType=DATE},
+      handler = #{handler,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
